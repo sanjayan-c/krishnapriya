@@ -11,16 +11,14 @@ const PortfolioGrid = () => {
 
     return (
         <>
-
-            <Row>
-                <Col className="text-center">
-                    <h1 className="display-5 fw-semibold">View my drawings</h1>
-                </Col>
-            </Row>
-
             {/* gallery */}
             <section className="overflow-hidden">
                 <Container>
+                    <Row>
+                        <Col className="text-center">
+                            <h1 className="display-5 fw-semibold">View my drawings</h1>
+                        </Col>
+                    </Row>
                     <Gallery galleryItems={limitedGalleryItems} />
                 </Container>
             </section>

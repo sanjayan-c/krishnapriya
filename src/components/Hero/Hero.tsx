@@ -83,7 +83,7 @@ export default function Example() {
                 }
 
                 /* Media Query for smaller screens */
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     .hero-section {
       padding-top: 12em!important;
     }

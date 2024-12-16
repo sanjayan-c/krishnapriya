@@ -24,7 +24,9 @@ const About = () => {
                             </Link>
                         </div>
                     </Col>
-                    <Col lg={{ span: 6, offset: 1 }}>
+                    <Col lg={{ span: 6, offset: 1 }}
+                        className="d-flex justify-content-center align-items-center"
+                        >
                         <img
                             src={"https://exhibition202.netlify.app/static/media/image-placeholder.750af1fd37da065f2307.png"}
                             alt="desktop1"
