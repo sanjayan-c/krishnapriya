@@ -2,15 +2,13 @@ import { Container } from 'react-bootstrap';
 
 // component
 import BackToTop from 'components/BackToTop';
-import Gallery from './Gallery';
 
-// dummy data
+import Gallery from './Gallery';
 import { galleryItems } from './data';
 
-const PortfolioGrid = () => {
+const PortfolioMasonry = () => {
     return (
         <>
-
             {/* gallery */}
             <section className="overflow-hidden py-5 py-md-6 py-lg-7">
                 <Container>
@@ -18,11 +16,10 @@ const PortfolioGrid = () => {
                 </Container>
             </section>
 
-            
 
             <BackToTop />
         </>
     );
 };
 
-export default PortfolioGrid;
+export default PortfolioMasonry;

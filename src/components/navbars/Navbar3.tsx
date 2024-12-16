@@ -3,8 +3,6 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { NavLink, Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-// hooks
-import { useUser } from '../../hooks/auth';
 
 // components
 import Menu from './Menu';
@@ -20,8 +18,6 @@ type Navbar3Props = {
 };
 
 const Navbar3 = ({ isSticky, navClass, buttonClass, fixedWidth }: Navbar3Props) => {
-    const [loggedInUser] = useUser();
-
     // on scroll add navbar class and back to top button
     useEffect(() => {
         const btnTop = document.getElementById('btn-back-to-top');
@@ -61,25 +57,6 @@ const Navbar3 = ({ isSticky, navClass, buttonClass, fixedWidth }: Navbar3Props) 
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Menu navClass="mx-auto" buttonClass={buttonClass ? buttonClass : 'btn-primary'} />
                         <Nav as="ul" className="align-items-lg-center">
-                            {loggedInUser ? (
-                                <Nav.Item as="li">
-                                    <NavLink
-                                        to="/auth/logout"
-                                        className="btn btn-sm me-2 fw-medium fs-15 shadow-none text-dark"
-                                    >
-                                        Logout
-                                    </NavLink>
-                                </Nav.Item>
-                            ) : (
-                                <Nav.Item as="li">
-                                    <NavLink
-                                        to="/auth/login"
-                                        className="btn btn-sm me-2 fw-medium fs-15 shadow-none text-dark"
-                                    >
-                                        Log In
-                                    </NavLink>
-                                </Nav.Item>
-                            )}
                             <Nav.Item as="li">
                                 <Link
                                     to="#"
