@@ -15,7 +15,7 @@
                 }
             }
             &.active {
-                color: $link-hover-color !important;
+                color: $link-hover-color;
                 [class^="icon-"] {
                     color: $link-hover-color;
                     > svg [fill]:not([fill="none"]) {
@@ -299,4 +299,41 @@
         max-height: 480px;
         overflow-y: auto;
     }
+}
+
+
+
+
+
+
+/* src/styles/custom-styles.css */
+.custom-navbar-class .nav-link.active {
+    color: #efdbda    !important; /* Gray color for active links */
+    font-weight: 600; /* Optional: make it slightly bold for emphasis */
+    transition: color 0.3s ease;
+}
+
+.custom-navbar-class {
+    background-color: #4F0028 !important;
+    color: white !important;
+}
+
+.custom-navbar-class .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.custom-navbar-class .nav-link:hover {
+    color: #e7c7c8 !important;
+}
+
+.custom-navbar-class .btn-outline-light {
+    color: white;
+    border-color: white;
+}
+
+.custom-navbar-class .btn-outline-light:hover {
+    color: #4F0028;
+    background-color: white;
 }

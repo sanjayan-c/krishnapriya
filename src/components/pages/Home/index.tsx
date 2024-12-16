@@ -16,12 +16,13 @@ const Home = () => {
     return (
         <>
             <div className="bg-gradient3">
-                <Navbar3
-                    navClass="bg-white navbar-light zindex-10"
-                    isSticky
-                    fixedWidth
-                    buttonClass="btn-outline-primary btn-sm"
-                />
+            <Navbar3
+                navClass="custom-navbar-class zindex-10"
+                isSticky
+                fixedWidth
+                buttonClass="btn-outline-light btn-sm"
+            />
+
                 <Hero/>
                
             </div>

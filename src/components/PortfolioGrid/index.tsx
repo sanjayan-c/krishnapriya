@@ -1,26 +1,32 @@
 import { Container } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 
-// component
-import BackToTop from 'components/BackToTop';
 import Gallery from './Gallery';
 
 // dummy data
 import { galleryItems } from './data';
 
 const PortfolioGrid = () => {
+    const limitedGalleryItems = galleryItems.slice(0, 3);
+
     return (
         <>
 
+            <Row>
+                <Col className="text-center">
+                    <Badge pill bg="" className="badge-soft-success px-2 py-1">
+                        Gallery
+                    </Badge>
+                    <h1 className="display-5 fw-semibold">View my drawings</h1>
+                </Col>
+            </Row>
+
             {/* gallery */}
-            <section className="overflow-hidden py-5 py-md-6 py-lg-7">
+            <section className="overflow-hidden">
                 <Container>
-                    <Gallery galleryItems={galleryItems} />
+                    <Gallery galleryItems={limitedGalleryItems} />
                 </Container>
             </section>
-
-            
-
-            <BackToTop />
         </>
     );
 };

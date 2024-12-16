@@ -1,4 +1,4 @@
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import GoogleMapReact from 'google-map-react';
 import { useForm } from 'react-hook-form';
@@ -35,6 +35,11 @@ const ContactUs = () => {
     return (
         <section className="section pb-lg-7 py-4 position-relative">
             <Container>
+                <Row>
+                    <Col className="text-center">
+                        <h1 className="display-5 fw-semibold">Contact Me</h1>
+                    </Col>
+                </Row>
                 <Row className="align-items-center">
                     <Col lg={6}>
                         <Card className="shadow-none">

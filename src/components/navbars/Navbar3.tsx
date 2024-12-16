@@ -51,21 +51,12 @@ const Navbar3 = ({ isSticky, navClass, buttonClass, fixedWidth }: Navbar3Props) 
             >
                 <Container fluid={!fixedWidth}>
                     <Navbar.Brand href="/">
-                        <img src={logo} height="30" className="d-inline-block align-top" alt="" />
+                        <img src={logo} height="50" className="d-inline-block align-top" alt="" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Menu navClass="mx-auto" buttonClass={buttonClass ? buttonClass : 'btn-primary'} />
-                        <Nav as="ul" className="align-items-lg-center">
-                            <Nav.Item as="li">
-                                <Link
-                                    to="#"
-                                    className={classNames('btn', buttonClass ? buttonClass : 'btn-soft-primary')}
-                                >
-                                    Download
-                                </Link>
-                            </Nav.Item>
-                        </Nav>
+                        
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

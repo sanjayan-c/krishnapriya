@@ -7,8 +7,9 @@ import logo from 'assets/images/logo.png';
 
 const Footer = () => {
     return (
-        <section className="py-5 py-sm-6 bg-gradient5">
+        <section className="section mt-5 py-4 py-sm-8 bg-gradient4 position-relative overflow-hidden">
             <Container>
+            <div className="divider top d-none d-sm-block"></div>
                 <Row>
                     <Col lg={4}>
                         <Link className="navbar-brand me-lg-4 me-auto pt-0" to="#">

@@ -59,57 +59,6 @@ const Gallery = ({ galleryItems }: GalleryProps) => {
 
     return (
         <>
-            <Row>
-                <Col xs={12}>
-                    <div className="text-center filter-menu">
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'all',
-                            })}
-                            onClick={() => filterImages('all')}
-                        >
-                            All
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'web',
-                            })}
-                            onClick={() => filterImages('web')}
-                        >
-                            Web Design
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'graphic',
-                            })}
-                            onClick={() => filterImages('graphic')}
-                        >
-                            Graphic Design
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'illustrator',
-                            })}
-                            onClick={() => filterImages('illustrator')}
-                        >
-                            Illustrator
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'photography',
-                            })}
-                            onClick={() => filterImages('photography')}
-                        >
-                            Photography
-                        </Link>
-                    </div>
-                </Col>
-            </Row>
 
             <Row className="grid-portfolio mt-5 justify-content-center">
                 {(gallery || []).map((galleryItem, index) => {

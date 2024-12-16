@@ -37,30 +37,6 @@ const About = () => {
                         />
                     </Col>
                 </Row>
-                <Row className="align-items-center">
-                    <Col lg={6}>
-                        <div
-                            className="bg-white p-2 rounded border shadow mb-lg-0 mb-3"
-                            data-aos="fade-right"
-                            data-aos-duration="1500"
-                        >
-                            <img src={desktop} alt="desktop" className="img-fluid" />
-                        </div>
-                    </Col>
-                    <Col lg={{ span: 5, offset: 1 }}>
-                        <div className="mt-4 mt-lg-0">
-                            <h1 className="display-4 fw-medium mb-3">Auto-tune your marketing campaigns</h1>
-                            <p className="text-muted mx-auto mb-4 pb-3">
-                                The prompts keeps an eye on your all marketting effort and auto tune the marketing
-                                campaigns settings to make them perform better
-                            </p>
-                            <Link to="#">
-                                Learn more
-                                <FeatherIcon icon="arrow-right" className="ms-1 icon-xxs" />
-                            </Link>
-                        </div>
-                    </Col>
-                </Row>
             </Container>
         </section>
     );

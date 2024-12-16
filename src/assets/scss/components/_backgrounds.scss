@@ -126,8 +126,12 @@ $value in $grays {
     background: linear-gradient(#f4f5f7 0,#fafafb 100%);
 }
 
+// .bg-gradient4 {
+//     background: linear-gradient(rgba($orange, 0.075) 0%, rgba($warning, 0.1) 100%) no-repeat left center;
+// }
+
 .bg-gradient4 {
-    background: linear-gradient(rgba($orange, 0.075) 0%, rgba($warning, 0.1) 100%) no-repeat left center;
+    background: linear-gradient(rgba($primary, 0.05) 0%, rgba($primary, 0.1) 100%) no-repeat left center;
 }
 
 .bg-gradient5 {
