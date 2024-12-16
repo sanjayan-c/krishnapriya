@@ -14,9 +14,6 @@ const PortfolioGrid = () => {
 
             <Row>
                 <Col className="text-center">
-                    <Badge pill bg="" className="badge-soft-success px-2 py-1">
-                        Gallery
-                    </Badge>
                     <h1 className="display-5 fw-semibold">View my drawings</h1>
                 </Col>
             </Row>

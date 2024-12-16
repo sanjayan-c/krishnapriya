@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 
 // images
-import logo from 'assets/images/logo.png';
+import logo from 'assets/images/logo-dark.png';
 
 const Footer = () => {
     return (
@@ -13,7 +13,7 @@ const Footer = () => {
                 <Row>
                     <Col lg={4}>
                         <Link className="navbar-brand me-lg-4 me-auto pt-0" to="#">
-                            <img src={logo} height="30" className="d-inline-block align-top" alt="" />
+                            <img src={logo} height="70" className="d-inline-block align-top" alt="" />
                         </Link>
                         <div className="">
                             <p className="mt-3 mb-1 text-dark">
@@ -34,21 +34,32 @@ const Footer = () => {
                                     </li>
                                     <li className="my-3">
                                         <Link to="#" className="text-dark">
-                                            Locations
+                                            About
                                         </Link>
                                     </li>
                                     <li className="my-3">
                                         <Link to="#" className="text-dark">
-                                            Plans
+                                            Gallery
                                         </Link>
                                     </li>
                                     <li className="my-3">
                                         <Link to="#" className="text-dark">
-                                            Events
+                                            Testimonials
+                                        </Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to="#" className="text-dark">
+                                            Exhibition
+                                        </Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to="#" className="text-dark">
+                                            Contact
                                         </Link>
                                     </li>
                                 </ul>
                             </Col>
+
 
                             <Col md={3} sm={6}>
                                 <h6 className="mb-4 mt-4 mt-sm-2 text-dark fw-semibold text-uppercase">Contact</h6>
@@ -76,20 +87,12 @@ const Footer = () => {
                                 </ul>
                             </Col>
                             <Col md={{ offset: 1, span: 5 }}>
-                                <h6 className="mb-4 mt-4 mt-sm-2 text-dark fw-semibold text-uppercase">
-                                    Subscribe To Newsletters
-                                </h6>
-                                <div className="input-group my-3">
-                                    <input
-                                        type="text"
-                                        className="form-control h-auto"
-                                        placeholder="Your email"
-                                        aria-label="keywords"
-                                    />
-                                    <Link to="#" className="btn btn-secondary input-group-text">
-                                        <FeatherIcon className="icon-xs" icon="mail" />
-                                    </Link>
-                                </div>
+                                <img
+                                    src={"https://cdn.dribbble.com/users/1531379/screenshots/4643688/me-800-600.gif"}
+                                    alt="Animated GIF"
+                                    className="img-fluid rounded"
+                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                />
                             </Col>
                         </Row>
                     </Col>

@@ -13,9 +13,6 @@ const Blog = ({ blogs }: BlogProps) => {
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <Badge pill bg="" className="badge-soft-success px-2 py-1">
-                            Blog
-                        </Badge>
                         <h1 className="display-5 fw-semibold">Interesting Articles</h1>
                     </Col>
                 </Row>

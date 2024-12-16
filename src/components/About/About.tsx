@@ -13,10 +13,7 @@ const About = () => {
                 <Row className="align-items-center mb-6 pb-lg-5">
                     <Col lg={5}>
                         <div className="mb-4 mb-lg-0">
-                            <Badge pill bg="" className="badge-soft-danger px-2 py-1">
-                                Feature
-                            </Badge>
-                            <h1 className="display-4 fw-medium mb-3">Automate everything</h1>
+                            <h1 className="display-4 fw-medium mb-3">About Me</h1>
                             <p className="text-muted mx-auto mb-4 pb-3">
                                 You don't need to manully follow up with your visitors. The Prompt takes care of it and
                                 follow up automatically with them to understand their needs
@@ -29,7 +26,7 @@ const About = () => {
                     </Col>
                     <Col lg={{ span: 6, offset: 1 }}>
                         <img
-                            src={desktop1}
+                            src={"https://exhibition202.netlify.app/static/media/image-placeholder.750af1fd37da065f2307.png"}
                             alt="desktop1"
                             className="img-fluid"
                             data-aos="fade-left"
