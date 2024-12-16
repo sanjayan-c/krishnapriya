@@ -1162,7 +1162,7 @@ $navbar-light-color: darken($body-color, 10%);
 $navbar-light-hover-color: darken($body-color, 25%);
 $navbar-light-active-color: darken($body-color, 25%);
 $navbar-light-disabled-color: rgba($black, 0.3);
-$navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' strokeWidth='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+$navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$white}' stroke-linecap='round' stroke-miterlimit='10' strokeWidth='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
 $navbar-light-toggler-border-color: transparent;
 
 $navbar-light-brand-color: $navbar-light-active-color;

@@ -27,7 +27,7 @@ export default function Example() {
     }, []);
 
     return (
-        <section className="bg-white overflow-hidden py-5">
+        <section className="bg-white overflow-hidden py-5 hero-section">
             <Container>
                 <Row className="align-items-center">
                     {/* Left Section */}
@@ -47,44 +47,20 @@ export default function Example() {
                         <div className="d-flex gap-3">
                             {/* Column 1 */}
                             <div className="d-flex flex-column gap-3">
-                                <img
-                                    src={currentImages[0]}
-                                    alt="Image 1"
-                                    className="rounded image-transition"
-                                />
-                                <img
-                                    src={currentImages[1]}
-                                    alt="Image 2"
-                                    className="rounded image-transition"
-                                />
+                                <img src={currentImages[0]} alt="Image 1" className="rounded image-transition" />
+                                <img src={currentImages[1]} alt="Image 2" className="rounded image-transition" />
                             </div>
 
                             {/* Column 2 */}
                             <div className="d-flex flex-column gap-3 mt-5">
-                                <img
-                                    src={currentImages[2]}
-                                    alt="Image 3"
-                                    className="rounded image-transition"
-                                />
-                                <img
-                                    src={currentImages[3]}
-                                    alt="Image 4"
-                                    className="rounded image-transition"
-                                />
+                                <img src={currentImages[2]} alt="Image 3" className="rounded image-transition" />
+                                <img src={currentImages[3]} alt="Image 4" className="rounded image-transition" />
                             </div>
 
                             {/* Column 3 */}
                             <div className="d-flex flex-column gap-3">
-                                <img
-                                    src={currentImages[4]}
-                                    alt="Image 5"
-                                    className="rounded image-transition"
-                                />
-                                <img
-                                    src={currentImages[5]}
-                                    alt="Image 6"
-                                    className="rounded image-transition"
-                                />
+                                <img src={currentImages[4]} alt="Image 5" className="rounded image-transition" />
+                                <img src={currentImages[5]} alt="Image 6" className="rounded image-transition" />
                             </div>
                         </div>
                     </Col>
@@ -105,6 +81,13 @@ export default function Example() {
                     transform: scale(1.03); /* Slight zoom effect on hover */
                     opacity: 1;
                 }
+
+                /* Media Query for smaller screens */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding-top: 12em!important;
+    }
+            }
             `}</style>
         </section>
     );
