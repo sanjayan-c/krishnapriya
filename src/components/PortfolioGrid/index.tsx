@@ -11,8 +11,7 @@ const PortfolioGrid = () => {
 
     return (
         <>
-            {/* gallery */}
-            <section className="overflow-hidden">
+            <section id="gallery" className="overflow-hidden">
                 <Container>
                     <Row>
                         <Col className="text-center">

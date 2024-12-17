@@ -27,7 +27,7 @@ export default function Example() {
     }, []);
 
     return (
-        <section className="bg-white overflow-hidden py-5 hero-section">
+        <section id="home" className="bg-white overflow-hidden py-5 hero-section">
             <Container>
                 <Row className="align-items-center">
                     {/* Left Section */}

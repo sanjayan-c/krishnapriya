@@ -9,7 +9,7 @@ type BlogProps = {
 
 const Blog = ({ blogs }: BlogProps) => {
     return (
-        <section className="section pt-lg-8 pt-6 pb-5 position-relative">
+        <section id="exhibition" className="section pt-lg-8 pt-6 pb-5 position-relative">
             <Container>
                 <Row>
                     <Col className="text-center">

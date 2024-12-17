@@ -1,13 +1,8 @@
 import React, { Suspense } from 'react';
-import { useRoutes } from 'react-router-dom';
-
-// components
-import Root from './Root';
+import { useRoutes, Navigate } from 'react-router-dom';
 
 // home
 const Home = React.lazy(() => import('../components/pages/Home'));
-
-
 
 const loading = () => <div className=""></div>;
 
@@ -24,17 +19,15 @@ const LoadComponent = ({ component: Component }: LoadComponentProps) => (
 const AllRoutes = () => {
     return useRoutes([
         {
-            // root route
-            path: '/',
-            element: <Root />,
-        },
-        {
-            // public routes
             path: '/',
             children: [
                 {
-                    path: 'home',
+                    path: '',
                     element: <LoadComponent component={Home} />,
+                },
+                {
+                    path: '*',
+                    element: <Navigate to="/" replace />,
                 },
             ],
         },

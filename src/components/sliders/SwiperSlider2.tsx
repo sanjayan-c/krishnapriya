@@ -45,17 +45,17 @@ const SwiperSlider2 = ({ slides, hasLogo }: SwiperSliderProps) => {
                                 <h4 className="fw-normal mb-3 mt-0">{slide.statement}</h4>
                                 <hr />
                                 <div className="d-flex pt-2 align-items-center">
-                                    <img
+                                    {/* <img
                                         src={slide.customer.avatar}
                                         alt="avtar"
                                         className="me-2 rounded-circle"
                                         height="36"
-                                    />
+                                    /> */}
                                     <div className="flex-grow-1">
                                         <h6 className="m-0">{slide.customer.name}</h6>
                                         <p className="my-0 text-muted fs-13">{slide.customer.designation}</p>
                                     </div>
-                                    {hasLogo && <img src={slide.logo} alt="logo" height="32" />}
+                                    {/* {hasLogo && <img src={slide.logo} alt="logo" height="32" />} */}
                                 </div>
                             </Card.Body>
                         </Card>

@@ -10,6 +10,7 @@ import { slides } from 'components/sliders/data';
 const Testimonials = () => {
     return (
         <section
+            id="testimonials"
             className="section mt-5 py-4 py-sm-8 bg-gradient4 position-relative overflow-hidden"
             data-aos="fade-up"
             data-aos-duration="600"

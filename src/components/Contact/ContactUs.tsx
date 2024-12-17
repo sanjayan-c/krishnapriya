@@ -33,7 +33,7 @@ const ContactUs = () => {
     const onSubmit = () => { };
 
     return (
-        <section className="section pb-lg-7 py-4 position-relative">
+        <section id="contact" className="section pb-lg-7 py-4 position-relative">
             <Container>
                 <Row>
                     <Col className="text-center">
@@ -137,8 +137,8 @@ const ContactUs = () => {
 
                     <Col md={4}>
                         <div className="d-flex px-md-1 px-lg-5 mb-md-0 mb-3">
-                            <span className="bg-soft-orange avatar avatar-sm rounded icon icon-with-bg icon-xs text-orange me-3 flex-shrink-0">
-                                <FeatherIcon icon="phone-call" className="icon-dual-orange" />
+                            <span className="bg-soft-primary avatar avatar-sm rounded icon icon-with-bg icon-xs text-orange me-3 flex-shrink-0">
+                                <FeatherIcon icon="phone-call" className="icon-dual-primary" />
                             </span>
                             <div className="flex-grow-1">
                                 <h5 className="m-0 fw-medium">Phone</h5>
@@ -151,8 +151,8 @@ const ContactUs = () => {
 
                     <Col md={4}>
                         <div className="d-flex px-md-1 px-lg-5 mb-md-0 mb-3">
-                            <span className="bg-soft-info avatar avatar-sm rounded icon icon-with-bg icon-xs text-info me-3 flex-shrink-0">
-                                <FeatherIcon icon="map-pin" className="icon-dual-info" />
+                            <span className="bg-soft-primary avatar avatar-sm rounded icon icon-with-bg icon-xs text-info me-3 flex-shrink-0">
+                                <FeatherIcon icon="map-pin" className="icon-dual-primary" />
                             </span>
                             <div className="flex-grow-1">
                                 <h5 className="m-0 fw-medium">Address</h5>
