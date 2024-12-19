@@ -1,22 +1,25 @@
 import React, { Suspense } from 'react';
 import { useRoutes, Navigate } from 'react-router-dom';
 
-// home
+// Lazy-loaded components
 const Home = React.lazy(() => import('../components/pages/Home'));
+const Login = React.lazy(() => import('../components/pages/Login'));
+const Dashboard = React.lazy(() => import('../components/pages/Dashboard'));
 
-const loading = () => <div className=""></div>;
+// Fallback loading component
+const Loading = () => <div>Loading...</div>;
 
 type LoadComponentProps = {
     component: React.LazyExoticComponent<() => JSX.Element>;
 };
 
-const LoadComponent = ({ component: Component }: LoadComponentProps) => (
-    <Suspense fallback={loading()}>
+const LoadComponent: React.FC<LoadComponentProps> = ({ component: Component }) => (
+    <Suspense fallback={<Loading />}>
         <Component />
     </Suspense>
 );
 
-const AllRoutes = () => {
+const AllRoutes: React.FC = () => {
     return useRoutes([
         {
             path: '/',
@@ -24,6 +27,14 @@ const AllRoutes = () => {
                 {
                     path: '',
                     element: <LoadComponent component={Home} />,
+                },
+                {
+                    path: 'login',
+                    element: <LoadComponent component={Login} />,
+                },
+                {
+                    path: 'dashboard',
+                    element: <LoadComponent component={Dashboard} />,
                 },
                 {
                     path: '*',
