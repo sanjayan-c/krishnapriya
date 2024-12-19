@@ -1,96 +1,108 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Col, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
+import axios from 'axios';
 
 import { LightBox, ImageType } from 'components/LightBox';
 import { GalleryItem } from './types';
 
 type GalleryProps = {
-    galleryItems: GalleryItem[];
+    galleryItems?: GalleryItem[];
 };
 
-const Gallery = ({ galleryItems }: GalleryProps) => {
+const Gallery = ({ galleryItems = [] }: GalleryProps) => {
     const [gallery, setGallery] = useState<GalleryItem[]>(galleryItems);
     const [category, setCategory] = useState<string>('all');
-
     const [galleryImages, setGalleryImages] = useState<ImageType[]>(
-        (galleryItems || []).map((album) => {
-            return album.image;
-        })
+        galleryItems.map((album) => album.image)
     );
-
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [photoIndex, setPhotoIndex] = useState<number>(0);
 
-    // filter image by category
+    // Fetch gallery items on mount
+    useEffect(() => {
+        const fetchGalleryItems = async () => {
+            try {
+                const response = await axios.get('http://localhost:8070/api/galleries');
+                let fetchedGalleryItems = response.data;
+                fetchedGalleryItems = fetchedGalleryItems.slice(0, 3);
+
+                setGallery(fetchedGalleryItems);
+                setGalleryImages(
+                    fetchedGalleryItems.map((item: GalleryItem) => ({
+                        src: `data:image/png;base64,${item.image}`, // Add Base64 prefix
+                        caption: item.title || '', // Use the title as caption
+                    }))
+                );
+                
+                
+            } catch (error) {
+                console.error('Error fetching gallery items:', error);
+            }
+        };
+
+        fetchGalleryItems();
+    }, []); // Empty dependency array ensures this runs once on mount
+
+    // Filter images by category
     const filterImages = (category: string) => {
         setCategory(category);
-        setTimeout(() => {
-            const galleryAlbums =
-                category === 'all' ? galleryItems : galleryItems.filter((album) => album.category?.includes(category));
-            setGallery(galleryAlbums);
-            setGalleryImages(
-                (galleryAlbums || []).map((album) => {
-                    return album.image;
-                })
-            );
-        }, 300);
+
+        const filteredGallery =
+            category === 'all'
+                ? galleryItems
+                : galleryItems.filter((album) => album.category?.includes(category));
+
+        setGallery(filteredGallery);
+        setGalleryImages(filteredGallery.map((album) => album.image));
     };
 
-    // handle lightbox event
+    // Handle lightbox events
     const openLightbox = (index: number) => {
         setPhotoIndex(index);
         setIsOpen(true);
     };
 
-    const closeLightbox = () => {
-        setIsOpen(false);
-    };
+    const closeLightbox = () => setIsOpen(false);
 
-    const moveNext = () => {
-        setPhotoIndex((prevState) => (prevState + 1) % galleryImages.length);
-    };
+    const moveNext = () => setPhotoIndex((prev) => (prev + 1) % galleryImages.length);
 
-    const movePrev = () => {
-        setPhotoIndex((prevState) => (prevState + galleryImages.length - 1) % galleryImages.length);
-    };
+    const movePrev = () =>
+        setPhotoIndex((prev) => (prev + galleryImages.length - 1) % galleryImages.length);
 
     return (
         <>
-
             <Row className="grid-portfolio mt-5 justify-content-center">
-                {(gallery || []).map((galleryItem, index) => {
-                    return (
-                        <Col xl={4} sm={6} className="filter-item all" key={index.toString()}>
-                            <Card className="card-portfolio-item shadow border all">
-                                <div className="p-2">
-                                    <div className="card-zoom">
-                                        <Link
-                                            to="#"
-                                            className="image-popup"
-                                            title={galleryItem.image!.caption}
-                                            onClick={() => openLightbox(index)}
-                                        >
-                                            <img
-                                                src={galleryItem.image!.src}
-                                                alt="galleryImage"
-                                                className="img-fluid"
-                                            />
-                                        </Link>
-                                    </div>
+                {gallery.map((galleryItem, index) => (
+                    <Col xl={4} sm={6} className={`filter-item ${category}`} key={index}>
+                        <Card className="card-portfolio-item shadow border">
+                            <div className="p-2">
+                                <div className="card-zoom">
+                                    <Link
+                                        to="#"
+                                        className="image-popup"
+                                        title={galleryItem.image?.caption || ''}
+                                        onClick={() => openLightbox(index)}
+                                    >
+                                        <img
+                                            src={`data:image/png;base64,${galleryItem.image}`  || ''}
+                                            alt={galleryItem.image?.caption || 'Gallery Image'}
+                                            className="img-fluid"
+                                        />
+                                    </Link>
                                 </div>
-                                <Card.Body className="p-2">
-                                    <div className="mt-2">
-                                        <h5 className="mt-0">{galleryItem.title}</h5>
-                                        <p className="text-muted mb-1">{galleryItem.description}</p>
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    );
-                })}
+                            </div>
+                            <Card.Body className="p-2">
+                                <div className="mt-2">
+                                    <h5 className="mt-0">{galleryItem.title}</h5>
+                                    <p className="text-muted mb-1">{galleryItem.description}</p>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
             </Row>
 
             <div className="text-center mt-5 pb-md-0">
@@ -100,7 +112,6 @@ const Gallery = ({ galleryItems }: GalleryProps) => {
                 </Link>
             </div>
 
-            {/* image lightbox */}
             {isOpen && (
                 <LightBox
                     images={galleryImages}
