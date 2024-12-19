@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Badge, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FeatherIcon from 'feather-icons-react';
 
 // Interfaces
 interface Gallery {
-    id: number;
+    id: string; // Change to `_id` and set it as string
     title: string;
     description: string;
     image: string;
 }
 
 interface Exhibition {
-    id: number;
+    id: string; // Change to `_id` and set it as string
     title: string;
     description: string;
     date: string;
@@ -22,13 +22,14 @@ interface Exhibition {
 }
 
 interface Article {
-    id: number;
+    id: string; // Change to `_id` and set it as string
     title: string;
     description: string;
     date: string;
     image: string;
     link: string;
 }
+
 
 const Dashboard = () => {
     const [galleries, setGalleries] = useState<Gallery[]>([]);
@@ -37,14 +38,33 @@ const Dashboard = () => {
     const [editingItem, setEditingItem] = useState<any>(null);
     const [currentTab, setCurrentTab] = useState<'gallery' | 'exhibition' | 'article'>('gallery');
 
-    // Form validation schema
+    const apiBase = 'http://localhost:8070/api';
+
+    useEffect(() => {
+        fetchData();
+    }, [currentTab]);
+
+    const fetchData = async () => {
+        const endpoint = currentTab === 'gallery' ? 'galleries' : currentTab === 'exhibition' ? 'exhibitions' : 'articles';
+        const response = await axios.get(`${apiBase}/${endpoint}`);
+    
+        if (currentTab === 'gallery') {
+            setGalleries(response.data); // Use `_id` as provided by the backend
+        } else if (currentTab === 'exhibition') {
+            setExhibitions(response.data);
+        } else {
+            setArticles(response.data);
+        }
+    };
+    
+
     const schemaResolver = yupResolver(
         yup.object().shape({
             title: yup.string().required('Please enter a title'),
             description: yup.string().required('Please enter a description'),
-            date: yup.date().typeError('Please enter a valid date').optional(),
-            image: yup.string().url('Please enter a valid image URL').optional(),
-            images: yup.array().of(yup.string().url()).optional(),
+            date: yup.date().optional(),
+            image: yup.mixed().optional(),
+            images: yup.mixed().optional(),
             link: yup.string().url('Please enter a valid link').optional(),
         })
     );
@@ -54,50 +74,71 @@ const Dashboard = () => {
         defaultValues: editingItem || {},
     });
 
-    const {
-        handleSubmit,
-        register,
-        reset,
-        formState: { errors },
-    } = methods;
+    const { handleSubmit, register, reset, setValue, formState: { errors } } = methods;
 
-    const onSubmit = (data: any) => {
-        if (editingItem) {
-            if (currentTab === 'gallery') {
-                setGalleries((prev) => prev.map((item) => (item.id === editingItem.id ? { ...editingItem, ...data } : item)));
-            } else if (currentTab === 'exhibition') {
-                setExhibitions((prev) => prev.map((item) => (item.id === editingItem.id ? { ...editingItem, ...data } : item)));
-            } else {
-                setArticles((prev) => prev.map((item) => (item.id === editingItem.id ? { ...editingItem, ...data } : item)));
-            }
-        } else {
-            const newItem = { id: Date.now(), ...data };
-            if (currentTab === 'gallery') {
-                setGalleries((prev) => [...prev, newItem]);
-            } else if (currentTab === 'exhibition') {
-                setExhibitions((prev) => [...prev, newItem]);
-            } else {
-                setArticles((prev) => [...prev, newItem]);
-            }
+    const onSubmit = async (data: any) => {
+        const endpoint = currentTab === 'gallery' ? 'galleries' : currentTab === 'exhibition' ? 'exhibitions' : 'articles';
+    
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('description', data.description);
+    
+        if (currentTab !== 'gallery') {
+            formData.append('date', data.date || '');
         }
-        reset();
-        setEditingItem(null);
+    
+        if (currentTab === 'article') {
+            alert("Function called")
+            formData.append('link', data.link || ''); // Append the link field
+        }
+    
+        if (data.image && data.image.length > 0) {
+            formData.append('image', data.image[0]); // Append the image file for articles
+        }
+    
+        if (currentTab === 'exhibition' && data.images && data.images.length > 0) {
+            Array.from(data.images).forEach((file: any) => formData.append('images', file));
+        }
+    
+        try {
+            if (editingItem && editingItem.id) {
+                // Update an existing article
+                await axios.put(`${apiBase}/${endpoint}/${editingItem.id}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+            } else {
+                // Add a new article
+                await axios.post(`${apiBase}/${endpoint}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+            }
+            reset();
+            setEditingItem(null);
+            fetchData();
+        } catch (error) {
+            console.error('Error saving data:', error);
+        }
     };
+    
+    
 
     const handleEdit = (item: any) => {
         setEditingItem(item);
         reset(item);
     };
 
-    const handleDelete = (id: number) => {
-        if (currentTab === 'gallery') {
-            setGalleries((prev) => prev.filter((item) => item.id !== id));
-        } else if (currentTab === 'exhibition') {
-            setExhibitions((prev) => prev.filter((item) => item.id !== id));
-        } else {
-            setArticles((prev) => prev.filter((item) => item.id !== id));
+    const handleDelete = async (item: any) => {
+        console.log('Deleting item with ID:', item); // Debug log
+    
+        const endpoint = currentTab === 'gallery' ? 'galleries' : currentTab === 'exhibition' ? 'exhibitions' : 'articles';
+        try {
+            await axios.delete(`${apiBase}/${endpoint}/${item._id}`);
+            fetchData();
+        } catch (error) {
+            console.error('Error deleting data:', error);
         }
     };
+    
 
     const renderList = () => {
         const items = currentTab === 'gallery' ? galleries : currentTab === 'exhibition' ? exhibitions : articles;
@@ -118,56 +159,109 @@ const Dashboard = () => {
                 <tbody>
                     {items.map((item, index) => {
                         if (currentTab === 'gallery') {
-                            const gallery = item as Gallery;
+                            const gallery = item as Gallery; // Narrow the type to Gallery
                             return (
                                 <tr key={gallery.id}>
                                     <td>{index + 1}</td>
                                     <td>{gallery.title}</td>
                                     <td>{gallery.description}</td>
-                                    <td>{gallery.image}</td>
                                     <td>
-                                        <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleEdit(gallery)}>
+                                        <img
+                                            src={`data:image/png;base64,${gallery.image}`}
+                                            alt={gallery.title}
+                                            style={{ maxWidth: '100px', maxHeight: '50px' }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Button
+                                            variant="outline-primary"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => handleEdit(gallery)}
+                                        >
                                             Edit
                                         </Button>
-                                        <Button variant="outline-danger" size="sm" onClick={() => handleDelete(gallery.id)}>
+                                        <Button
+                                            variant="outline-danger"
+                                            size="sm"
+                                            onClick={() => handleDelete(gallery)}
+                                        >
                                             Delete
                                         </Button>
                                     </td>
                                 </tr>
                             );
                         } else if (currentTab === 'exhibition') {
-                            const exhibition = item as Exhibition;
+                            const exhibition = item as Exhibition; // Narrow the type to Exhibition
                             return (
                                 <tr key={exhibition.id}>
                                     <td>{index + 1}</td>
                                     <td>{exhibition.title}</td>
                                     <td>{exhibition.description}</td>
                                     <td>{exhibition.date}</td>
-                                    <td>{exhibition.images?.join(', ')}</td>
                                     <td>
-                                        <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleEdit(exhibition)}>
+                                        {exhibition.images?.map((img, i) => (
+                                            <img
+                                                key={i}
+                                                src={`data:image/png;base64,${img}`}
+                                                alt={`Exhibition ${i}`}
+                                                style={{ maxWidth: '50px', maxHeight: '50px', marginRight: '5px' }}
+                                            />
+                                        ))}
+                                    </td>
+                                    <td>
+                                        <Button
+                                            variant="outline-primary"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => handleEdit(exhibition)}
+                                        >
                                             Edit
                                         </Button>
-                                        <Button variant="outline-danger" size="sm" onClick={() => handleDelete(exhibition.id)}>
+                                        <Button
+                                            variant="outline-danger"
+                                            size="sm"
+                                            onClick={() => handleDelete(exhibition)}
+                                        >
                                             Delete
                                         </Button>
                                     </td>
                                 </tr>
                             );
-                        } else {
-                            const article = item as Article;
+                        } else if (currentTab === 'article') {
+                            const article = item as Article; // Narrow the type to Article
                             return (
                                 <tr key={article.id}>
                                     <td>{index + 1}</td>
                                     <td>{article.title}</td>
                                     <td>{article.description}</td>
                                     <td>{article.date}</td>
-                                    <td>{article.link}</td>
                                     <td>
-                                        <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleEdit(article)}>
+                                        <a href={article.link} target="_blank" rel="noopener noreferrer">
+                                            {article.link}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <img
+                                            src={`data:image/png;base64,${article.image}`}
+                                            alt={article.title}
+                                            style={{ maxWidth: '100px', maxHeight: '50px' }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Button
+                                            variant="outline-primary"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => handleEdit(article)}
+                                        >
                                             Edit
                                         </Button>
-                                        <Button variant="outline-danger" size="sm" onClick={() => handleDelete(article.id)}>
+                                        <Button
+                                            variant="outline-danger"
+                                            size="sm"
+                                            onClick={() => handleDelete(article)}
+                                        >
                                             Delete
                                         </Button>
                                     </td>
@@ -178,110 +272,46 @@ const Dashboard = () => {
                 </tbody>
             </table>
         );
-    };    
+    };
+    
+    
+    
 
     return (
-        <section id="dashboard" className="section pb-lg-7 py-4 position-relative">
-            <Container>
-                <Row>
-                    <Col className="text-center">
-                        <h1 className="display-5 fw-semibold">Dashboard Management</h1>
-                        <div className="my-3">
-                            <Button variant="primary" onClick={() => setCurrentTab('gallery')} className="me-2">
-                                Manage Galleries
-                            </Button>
-                            <Button variant="primary" onClick={() => setCurrentTab('exhibition')} className="me-2">
-                                Manage Exhibitions
-                            </Button>
-                            <Button variant="primary" onClick={() => setCurrentTab('article')}>
-                                Manage Articles
-                            </Button>
-                        </div>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={8} className="mx-auto">
-                        <Card className="shadow-none">
-                            <Card.Body className="p-xl-5 p-0">
-                                <h2 className="mb-2 mt-0 fw-medium">{`Manage ${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}s`}</h2>
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    <Row>
-                                        <Col lg={12}>
-                                            <input
-                                                type="text"
-                                                placeholder="Title"
-                                                {...register('title')}
-                                                className={`form-control mb-3 ${errors.title ? 'is-invalid' : ''}`}
-                                            />
-                                            {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
-                                        </Col>
-                                        <Col lg={12}>
-                                            <textarea
-                                                placeholder="Description"
-                                                {...register('description')}
-                                                className={`form-control mb-3 ${errors.description ? 'is-invalid' : ''}`}
-                                            />
-                                            {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
-                                        </Col>
-                                        {currentTab !== 'gallery' && (
-                                            <Col lg={6}>
-                                                <input
-                                                    type="date"
-                                                    placeholder="Date"
-                                                    {...register('date')}
-                                                    className={`form-control mb-3 ${errors.date ? 'is-invalid' : ''}`}
-                                                />
-                                                {errors.date && <div className="invalid-feedback">{errors.date.message}</div>}
-                                            </Col>
-                                        )}
-                                        {currentTab === 'gallery' && (
-                                            <Col lg={12}>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Image URL"
-                                                    {...register('image')}
-                                                    className={`form-control mb-3 ${errors.image ? 'is-invalid' : ''}`}
-                                                />
-                                                {errors.image && <div className="invalid-feedback">{errors.image.message}</div>}
-                                            </Col>
-                                        )}
-                                        {currentTab === 'exhibition' && (
-                                            <Col lg={12}>
-                                                <textarea
-                                                    placeholder="Images (comma separated URLs)"
-                                                    {...register('images')}
-                                                    className={`form-control mb-3 ${errors.images ? 'is-invalid' : ''}`}
-                                                />
-                                                {errors.images && <div className="invalid-feedback">{errors.images.message}</div>}
-                                            </Col>
-                                        )}
-                                        {currentTab === 'article' && (
-                                            <Col lg={12}>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Link"
-                                                    {...register('link')}
-                                                    className={`form-control mb-3 ${errors.link ? 'is-invalid' : ''}`}
-                                                />
-                                                {errors.link && <div className="invalid-feedback">{errors.link.message}</div>}
-                                            </Col>
-                                        )}
-                                        <Col lg="auto">
-                                            <Button type="submit">
-                                                {editingItem ? 'Update' : 'Add'}
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </form>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row className="mt-5">
-                    <Col lg={12}>{renderList()}</Col>
-                </Row>
-            </Container>
-        </section>
+        <Container>
+            <Row>
+                <Col className="text-center mb-5">
+                    <h1>Dashboard Management</h1>
+                    <Button onClick={() => setCurrentTab('gallery')} className="me-2">Manage Galleries</Button>
+                    <Button onClick={() => setCurrentTab('exhibition')} className="me-2">Manage Exhibitions</Button>
+                    <Button onClick={() => setCurrentTab('article')}>Manage Articles</Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={8} className="mx-auto">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="text" placeholder="Title" {...register('title')} className={`form-control mb-3 ${errors.title ? 'is-invalid' : ''}`} />
+                        <textarea placeholder="Description" {...register('description')} className={`form-control mb-3 ${errors.description ? 'is-invalid' : ''}`} />
+                        {currentTab !== 'gallery' && (
+                            <input type="date" {...register('date')} className={`form-control mb-3 ${errors.date ? 'is-invalid' : ''}`} />
+                        )}
+                        {(currentTab === 'gallery' || currentTab === 'article') && (
+                            <input type="file" {...register('image')} className="form-control mb-3" />
+                        )}
+                        {currentTab === 'exhibition' && (
+                            <input type="file" {...register('images')} multiple className="form-control mb-3" />
+                        )}
+                        {currentTab === 'article' && (
+                            <input type="text" placeholder="Link" {...register('link')} className="form-control mb-3" />
+                        )}
+                        <Button type="submit">{editingItem ? 'Update' : 'Add'}</Button>
+                    </form>
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col>{renderList()}</Col>
+            </Row>
+        </Container>
     );
 };
 
