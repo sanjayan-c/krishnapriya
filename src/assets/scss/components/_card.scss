@@ -15,6 +15,8 @@
             transform: translateY(-3px) !important;
         }
     }
+    
+    
 
     .card-img-overlay {
         .overlay-light-top {
@@ -71,11 +73,16 @@
     @include border-radius($card-border-radius);
 }
 
+.fixed-image {
+    width: 100%; /* Ensure it stretches across the card */
+    height: 220px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensures the image scales properly */
+    border-radius: 0.25rem; /* Optional: Add slight rounding to match card design */
+}
 
 // custom positioning in card overlay
 .card-img-top-overlay {
     position: relative;
-
     .overlay {
         position: absolute;
         top: 0;

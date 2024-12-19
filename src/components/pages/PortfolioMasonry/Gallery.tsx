@@ -1,158 +1,108 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Col, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import axios from 'axios';
 
 import { LightBox, ImageType } from 'components/LightBox';
-import { GalleryItem } from '../../PortfolioGrid/types';
 
-type GalleryProps = {
-    galleryItems: GalleryItem[];
+type GalleryItem = {
+    _id: string;
+    title: string;
+    description: string;
+    image: string; // Base64-encoded image string
+    category?: string; // Optional category for filtering
 };
 
-const Gallery = ({ galleryItems }: GalleryProps) => {
-    const [gallery, setGallery] = useState<GalleryItem[]>(galleryItems);
+const Gallery = () => {
+    const [gallery, setGallery] = useState<GalleryItem[]>([]);
+    const [galleryImages, setGalleryImages] = useState<ImageType[]>([]);
     const [category, setCategory] = useState<string>('all');
-
-    const [galleryImages, setGalleryImages] = useState<ImageType[]>(
-        (galleryItems || []).map((album) => {
-            return album.image;
-        })
-    );
-
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [photoIndex, setPhotoIndex] = useState<number>(0);
 
-    // filter image by category
+    // Fetch gallery items from API
+    useEffect(() => {
+        const fetchGalleryItems = async () => {
+            try {
+                const response = await axios.get('http://localhost:8070/api/galleries');
+                const fetchedGalleryItems = response.data.map((item: any) => ({
+                    ...item,
+                    image: `data:image/png;base64,${item.image}`, // Convert Base64 to valid data URL
+                }));
+                setGallery(fetchedGalleryItems);
+                setGalleryImages(
+                    fetchedGalleryItems.map((item: GalleryItem) => ({
+                        src: item.image,
+                        caption: item.title,
+                    }))
+                );
+            } catch (error) {
+                console.error('Error fetching gallery items:', error);
+            }
+        };
+
+        fetchGalleryItems();
+    }, []);
+
+    // Filter images by category
     const filterImages = (category: string) => {
         setCategory(category);
-        setTimeout(() => {
-            const galleryAlbums =
-                category === 'all' ? galleryItems : galleryItems.filter((album) => album.category?.includes(category));
-            setGallery(galleryAlbums);
-            setGalleryImages(
-                (galleryAlbums || []).map((album) => {
-                    return album.image;
-                })
-            );
-        }, 300);
+        const filteredGallery =
+            category === 'all' ? gallery : gallery.filter((item) => item.category?.includes(category));
+        setGallery(filteredGallery);
+        setGalleryImages(
+            filteredGallery.map((item) => ({
+                src: item.image,
+                caption: item.title,
+            }))
+        );
     };
 
-    // handle lightbox event
+    // Handle Lightbox events
     const openLightbox = (index: number) => {
         setPhotoIndex(index);
         setIsOpen(true);
     };
 
-    const closeLightbox = () => {
-        setIsOpen(false);
-    };
+    const closeLightbox = () => setIsOpen(false);
 
-    const moveNext = () => {
-        setPhotoIndex((prevState) => (prevState + 1) % galleryImages.length);
-    };
+    const moveNext = () => setPhotoIndex((prev) => (prev + 1) % galleryImages.length);
 
-    const movePrev = () => {
-        setPhotoIndex((prevState) => (prevState + galleryImages.length - 1) % galleryImages.length);
-    };
+    const movePrev = () => setPhotoIndex((prev) => (prev + galleryImages.length - 1) % galleryImages.length);
 
     return (
         <>
-            <Row>
-                <Col xs={12}>
-                    <div className="text-center filter-menu">
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'all',
-                            })}
-                            onClick={() => filterImages('all')}
-                        >
-                            All
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'web',
-                            })}
-                            onClick={() => filterImages('web')}
-                        >
-                            Web Design
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'graphic',
-                            })}
-                            onClick={() => filterImages('graphic')}
-                        >
-                            Graphic Design
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'illustrator',
-                            })}
-                            onClick={() => filterImages('illustrator')}
-                        >
-                            Illustrator
-                        </Link>
-                        <Link
-                            to="#"
-                            className={classNames('filter-menu-item', 'me-1', {
-                                active: category === 'photography',
-                            })}
-                            onClick={() => filterImages('photography')}
-                        >
-                            Photography
-                        </Link>
-                    </div>
-                </Col>
-            </Row>
-
             <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
                 <Masonry gutter="1.5rem">
-                    {(gallery || []).map((galleryItem, index) => {
-                        return (
-                            <Card className="card-portfolio-item mb-0 shadow border filter-item" key={index.toString()}>
-                                <div className="p-2">
-                                    <div className="card-zoom">
-                                        <Link
-                                            to="#"
-                                            className="image-popup"
-                                            title={galleryItem.image!.caption}
-                                            onClick={() => openLightbox(index)}
-                                        >
-                                            <img
-                                                src={galleryItem.image!.src}
-                                                alt="galleryImage"
-                                                className="img-fluid"
-                                            />
-                                        </Link>
-                                    </div>
+                    {gallery.map((galleryItem, index) => (
+                        <Card className="card-portfolio-item mb-0 shadow border filter-item" key={galleryItem._id}>
+                            <div className="p-2">
+                                <div className="card-zoom">
+                                    <Link
+                                        to="#"
+                                        className="image-popup"
+                                        title={galleryItem.title}
+                                        onClick={() => openLightbox(index)}
+                                    >
+                                        <img src={galleryItem.image} alt={galleryItem.title} className="img-fluid" />
+                                    </Link>
                                 </div>
-                                <Card.Body className="p-2">
-                                    <div className="mt-2">
-                                        <h5 className="mt-0">{galleryItem.title}</h5>
-                                        <p className="text-muted mb-1">{galleryItem.description}</p>
-                                    </div>
-                                </Card.Body>
-                            </Card>
-                        );
-                    })}
+                            </div>
+                            <Card.Body className="p-2">
+                                <div className="mt-2">
+                                    <h5 className="mt-0">{galleryItem.title}</h5>
+                                    <p className="text-muted mb-1">{galleryItem.description}</p>
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    ))}
                 </Masonry>
             </ResponsiveMasonry>
 
-            <div className="text-center mt-5 pb-md-0">
-                <Link to="#" className="btn btn-primary">
-                    <FeatherIcon icon="refresh-ccw" className="icon-xxs me-2" />
-                    Load More
-                </Link>
-            </div>
-
-            {/* image lightbox */}
+            {/* Image Lightbox */}
             {isOpen && (
                 <LightBox
                     images={galleryImages}

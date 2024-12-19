@@ -12,7 +12,7 @@ const PortfolioMasonry = () => {
             {/* gallery */}
             <section className="overflow-hidden py-5 py-md-6 py-lg-7">
                 <Container>
-                    <Gallery galleryItems={galleryItems} />
+                    <Gallery />
                 </Container>
             </section>
 

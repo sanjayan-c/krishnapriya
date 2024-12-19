@@ -5,6 +5,8 @@ import { useRoutes, Navigate } from 'react-router-dom';
 const Home = React.lazy(() => import('../components/pages/Home'));
 const Login = React.lazy(() => import('../components/pages/Login'));
 const Dashboard = React.lazy(() => import('../components/pages/Dashboard'));
+const PortfolioMasonry = React.lazy(() => import('../components/pages/PortfolioMasonry'));
+const Article = React.lazy(() => import('../components/pages/Article'));
 
 // Fallback loading component
 const Loading = () => <div>Loading...</div>;
@@ -35,6 +37,14 @@ const AllRoutes: React.FC = () => {
                 {
                     path: 'dashboard',
                     element: <LoadComponent component={Dashboard} />,
+                },
+                {
+                    path: 'galery',
+                    element: <LoadComponent component={PortfolioMasonry} />,
+                },
+                {
+                    path: 'article',
+                    element: <LoadComponent component={Article} />
                 },
                 {
                     path: '*',

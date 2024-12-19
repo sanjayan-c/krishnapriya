@@ -23,18 +23,19 @@ const Home = () => {
                 buttonClass="btn-outline-light btn-sm"
             />
 
-                <Hero/>
+                <Hero />
                
             </div>
-            <Features/>
+            
+            <Features />
 
-            <PortfolioGrid/>
+            <PortfolioGrid />
 
             <Testimonials/>
 
-            <Blog blogs={blogPosts} />
+            <Blog />
          
-            <Contact/>
+            <Contact />
 
             {/* footer */}
             <Footer />

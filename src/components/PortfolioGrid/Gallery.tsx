@@ -77,7 +77,7 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
             <Row className="grid-portfolio mt-5 justify-content-center">
                 {gallery.map((galleryItem, index) => (
                     <Col xl={4} sm={6} className={`filter-item ${category}`} key={index}>
-                        <Card className="card-portfolio-item shadow border">
+                        <Card className="card-portfolio-item  fixed-image shadow border">
                             <div className="p-2">
                                 <div className="card-zoom">
                                     <Link
@@ -106,7 +106,7 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
             </Row>
 
             <div className="text-center mt-5 pb-md-0">
-                <Link to="#" className="btn btn-primary">
+                <Link to="/galery" className="btn btn-primary">
                     <FeatherIcon icon="refresh-ccw" className="icon-xxs me-2" />
                     Load More
                 </Link>
