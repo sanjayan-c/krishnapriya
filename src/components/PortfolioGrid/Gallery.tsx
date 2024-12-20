@@ -106,7 +106,7 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
             </Row>
 
             <div className="text-center mt-5 pb-md-0">
-                <Link to="/galery" className="btn btn-primary">
+                <Link to="/gallery" className="btn btn-primary">
                     <FeatherIcon icon="refresh-ccw" className="icon-xxs me-2" />
                     Load More
                 </Link>

@@ -39,7 +39,7 @@ const AllRoutes: React.FC = () => {
                     element: <LoadComponent component={Dashboard} />,
                 },
                 {
-                    path: 'galery',
+                    path: 'gallery',
                     element: <LoadComponent component={PortfolioMasonry} />,
                 },
                 {

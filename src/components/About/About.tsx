@@ -19,6 +19,10 @@ const About = () => {
                                 Learn more
                                 <FeatherIcon icon="arrow-right" className="ms-1 icon-xxs" />
                             </Link>
+                            <Link to="/article">
+                                Article
+                                <FeatherIcon icon="arrow-right" className="ms-1 icon-xxs" />
+                            </Link>
                         </div>
                     </Col>
                     <Col lg={{ span: 6, offset: 1 }}
