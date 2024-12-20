@@ -8,7 +8,6 @@ import PortfolioGrid from 'components/PortfolioGrid';
 import Testimonials from '../../Testimonials/Testimonials';
 import Contact from 'components/Contact';
 import Blog from '../../Blog/Blog';
-import { blogPosts } from '../../Blog/data blogs';
 
 import Navbar3 from 'components/navbars/Navbar3';
 

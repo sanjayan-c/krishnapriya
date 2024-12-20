@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import axios from 'axios';
-
 import { LightBox, ImageType } from 'components/LightBox';
+import Navbar3 from 'components/navbars/Navbar3';
+import Footer from '../../Footer/Footer'
 
 type GalleryItem = {
     _id: string;
@@ -75,7 +76,15 @@ const Gallery = () => {
 
     return (
         <>
-            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+            <div className="bg-gradient3">
+                <Navbar3
+                    navClass="custom-navbar-class zindex-10"
+                    isSticky
+                    fixedWidth
+                    buttonClass="btn-outline-light btn-sm"
+                /> 
+            </div>
+            <ResponsiveMasonry >
                 <Masonry gutter="1.5rem">
                     {gallery.map((galleryItem, index) => (
                         <Card className="card-portfolio-item mb-0 shadow border filter-item" key={galleryItem._id}>
@@ -112,6 +121,7 @@ const Gallery = () => {
                     movePrev={movePrev}
                 />
             )}
+            <Footer />
         </>
     );
 };

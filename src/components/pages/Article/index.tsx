@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
+import Navbar3 from 'components/navbars/Navbar3';
+import Footer from '../../Footer/Footer';
 
 type BlogPost = {
     title: string;
@@ -35,11 +37,21 @@ const Article = () => {
     }, []);
 
     return (
+        <>
+            <div className="bg-gradient3">
+                <Navbar3
+                    navClass="custom-navbar-class zindex-10"
+                    isSticky
+                    fixedWidth
+                    buttonClass="btn-outline-light btn-sm"
+                /> 
+            </div>
         <section id="exhibition" className="section pt-lg-8 pt-6 pb-5 position-relative">
+
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <h1 className="display-5 fw-semibold">Exhibition</h1>
+                        <h1 className="display-5 fw-semibold">Articles</h1>
                     </Col>
                 </Row>
                 <Row className="mt-5">
@@ -84,6 +96,8 @@ const Article = () => {
                 </Row>
             </Container>
         </section>
+        <Footer />
+        </>
     );
 };
 
