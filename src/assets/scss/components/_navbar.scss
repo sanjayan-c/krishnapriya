@@ -34,7 +34,8 @@
         }
     }
     &.topnav-menu {
-        height: 70px;
+        height: auto;
+        padding-top: 30px;
         .navbar-nav {
             & > .nav-item {
                 > .nav-link {
@@ -336,4 +337,18 @@
 .custom-navbar-class .btn-outline-light:hover {
     color: #4F0028;
     background-color: white;
+}
+
+@media (min-width: 992px) {
+    .hidden-logo {
+        display: none !important;
+    }
+    
+    .navbar-sticky .navbar-logo {
+        display: none !important;
+    }
+    
+    .navbar.navbar-sticky{
+        margin-top: -30px;
+    }
 }

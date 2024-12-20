@@ -132,7 +132,6 @@ const Article = () => {
                                         </div>
                                         <Card.Body>
                                             <h4 className="text-dark">{blog.title}</h4>
-                                            <p className="text-muted mb-2">{blog.description}</p>
                                             {blog.time && (
                                                 <p className="fs-13 align-middle">{blog.time}</p>
                                             )}
