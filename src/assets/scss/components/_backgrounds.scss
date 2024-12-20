@@ -119,7 +119,7 @@ $value in $grays {
 }
 
 .bg-gradient2 {
-    background: linear-gradient($gray-200 0%, $gray-100 100%) no-repeat left center;
+    background: $primary;
 }
 
 .bg-gradient3 {

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import axios from 'axios';
 import { LightBox, ImageType } from 'components/LightBox';
 import Navbar3 from 'components/navbars/Navbar3';
-import Footer from '../../Footer/Footer'
+import Footer from '../../Footer/Footer';
 
 type GalleryItem = {
     _id: string;
@@ -76,20 +76,10 @@ const Gallery = () => {
 
     return (
         <>
-            <div className="bg-gradient3">
-                <Navbar3
-                    navClass="custom-navbar-class zindex-10"
-                    isSticky
-                    fixedWidth
-                    buttonClass="btn-outline-light btn-sm"
-                /> 
-            </div>
-            <Row>
-                <Col className="text-center">
-                    <h1 className="display-5 fw-semibold">Gallery</h1>
-                </Col>
-            </Row>
-            <ResponsiveMasonry >
+
+            
+
+            <ResponsiveMasonry>
                 <Masonry gutter="1.5rem">
                     {gallery.map((galleryItem, index) => (
                         <Card className="card-portfolio-item mb-0 shadow border filter-item" key={galleryItem._id}>
@@ -99,8 +89,7 @@ const Gallery = () => {
                                         to="#"
                                         className="image-popup"
                                         title={galleryItem.title}
-                                        onClick={() => openLightbox(index)}
-                                    >
+                                        onClick={() => openLightbox(index)}>
                                         <img src={galleryItem.image} alt={galleryItem.title} className="img-fluid" />
                                     </Link>
                                 </div>
@@ -126,7 +115,6 @@ const Gallery = () => {
                     movePrev={movePrev}
                 />
             )}
-            <Footer />
         </>
     );
 };
