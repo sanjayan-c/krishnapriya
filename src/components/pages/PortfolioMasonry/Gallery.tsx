@@ -84,6 +84,11 @@ const Gallery = () => {
                     buttonClass="btn-outline-light btn-sm"
                 /> 
             </div>
+            <Row>
+                <Col className="text-center">
+                    <h1 className="display-5 fw-semibold">Gallery</h1>
+                </Col>
+            </Row>
             <ResponsiveMasonry >
                 <Masonry gutter="1.5rem">
                     {gallery.map((galleryItem, index) => (
