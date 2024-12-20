@@ -9,6 +9,14 @@ import FeatherIcon from 'feather-icons-react';
 // components
 import { FormInput } from 'components/form';
 
+// Define the type for form data
+type ContactFormData = {
+    fname: string;
+    lname: string;
+    email: string;
+    message: string;
+};
+
 const ContactUs = () => {
     // form validation schema
     const schemaResolver = yupResolver(
@@ -21,7 +29,7 @@ const ContactUs = () => {
     );
 
     // form method
-    const methods = useForm({ resolver: schemaResolver });
+    const methods = useForm<ContactFormData>({ resolver: schemaResolver });
     const {
         handleSubmit,
         register,
@@ -30,7 +38,25 @@ const ContactUs = () => {
     } = methods;
 
     // handle form submission
-    const onSubmit = () => { };
+    const onSubmit = async (data: ContactFormData) => {
+        try {
+            const response = await fetch('http://localhost:8070/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+            } else {
+                alert(result.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+    };
 
     return (
         <section id="contact" className="section pb-lg-7 py-4 position-relative">

@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const galleryRoutes = require("./gallery");
 const exhibitionRoutes = require("./exhibition");
 const articleRoutes = require("./article");
+const contactRoutes = require('./contact');
 
 const app = express();
 dotenv.config();
@@ -36,6 +37,7 @@ connection.once("open", () => {
 app.use("/api/galleries", galleryRoutes);
 app.use("/api/exhibitions", exhibitionRoutes);
 app.use("/api/articles", articleRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Start the Server
 app.listen(PORT, () => {
