@@ -4,11 +4,12 @@ import classNames from 'classnames';
 
 type MenuProps = {
     navClass?: string;
-    buttonClass?: string; // Add buttonClass here
+    buttonClass?: string;
 };
 
 const Menu = ({ navClass }: MenuProps) => {
     const [activeSection, setActiveSection] = useState<string>('home');
+    const url = "http://localhost:3000"; // Base URL
 
     // Observe section visibility
     useEffect(() => {
@@ -21,7 +22,7 @@ const Menu = ({ navClass }: MenuProps) => {
                     }
                 });
             },
-            { threshold: 0.3 } 
+            { threshold: 0.3 }
         );
 
         sections.forEach((section) => observer.observe(section));
@@ -35,7 +36,7 @@ const Menu = ({ navClass }: MenuProps) => {
         <Nav as="ul" className={classNames('align-items-lg-center justify-content-center', navClass)}>
             <Nav.Item as="li">
                 <a
-                    href="#home"
+                    href={`${url}/#home`} // Use template literal
                     className={classNames('nav-link', { active: activeSection === 'home' })}
                 >
                     Home
@@ -43,7 +44,7 @@ const Menu = ({ navClass }: MenuProps) => {
             </Nav.Item>
             <Nav.Item as="li">
                 <a
-                    href="#about"
+                    href={`${url}/#about`}
                     className={classNames('nav-link', { active: activeSection === 'about' })}
                 >
                     About
@@ -51,7 +52,7 @@ const Menu = ({ navClass }: MenuProps) => {
             </Nav.Item>
             <Nav.Item as="li">
                 <a
-                    href="#gallery"
+                    href={`${url}/#gallery`}
                     className={classNames('nav-link', { active: activeSection === 'gallery' })}
                 >
                     Gallery
@@ -59,7 +60,7 @@ const Menu = ({ navClass }: MenuProps) => {
             </Nav.Item>
             <Nav.Item as="li">
                 <a
-                    href="#testimonials"
+                    href={`${url}/#testimonials`}
                     className={classNames('nav-link', { active: activeSection === 'testimonials' })}
                 >
                     Testimonials
@@ -67,15 +68,15 @@ const Menu = ({ navClass }: MenuProps) => {
             </Nav.Item>
             <Nav.Item as="li">
                 <a
-                    href="#exhibition"
-                    className={classNames('nav-link', { active: activeSection === 'testimonials' })}
+                    href={`${url}/#exhibition`}
+                    className={classNames('nav-link', { active: activeSection === 'exhibition' })}
                 >
                     Exhibition
                 </a>
             </Nav.Item>
             <Nav.Item as="li">
                 <a
-                    href="#contact"
+                    href={`${url}/#contact`}
                     className={classNames('nav-link', { active: activeSection === 'contact' })}
                 >
                     Contact
