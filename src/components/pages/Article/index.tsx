@@ -51,7 +51,7 @@ const Article = () => {
                             {
                                 title: metadata.title || 'No Title',
                                 description: metadata.description || 'No Description',
-                                time: formatDate(metadata.date), // Use the updated formatDate function
+                                time: formatDate(metadata.date), 
                                 img: metadata.image || DEFAULT_IMAGE,
                                 link: link,
                             },
