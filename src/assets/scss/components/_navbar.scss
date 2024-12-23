@@ -34,12 +34,13 @@
         }
     }
     &.topnav-menu {
+        // height: 70px;
         height: auto;
-        padding-top: 30px;
+        padding: 15px 0 10px;
         .navbar-nav {
             & > .nav-item {
                 > .nav-link {
-                    padding: 0 $nav-link-padding-x;
+                    padding: 0 $nav-link-padding-xx 0 0;
                     display: block;
                     line-height: 70px;
                     max-height: 70px;
@@ -339,16 +340,6 @@
     background-color: white;
 }
 
-@media (min-width: 992px) {
-    .hidden-logo {
-        display: none !important;
-    }
-    
-    .navbar-sticky .navbar-logo {
-        display: none !important;
-    }
-    
-    .navbar.navbar-sticky{
-        margin-top: -30px;
-    }
+#nav-link-button{
+    color: #4F0028!important;
 }

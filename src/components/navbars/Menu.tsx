@@ -82,6 +82,17 @@ const Menu = ({ navClass }: MenuProps) => {
                     Contact
                 </a>
             </Nav.Item>
+            {/* <Nav.Item as="li">
+            <button className="btn btn-white-custom">
+        <a
+            href={`${url}/#contact`}
+            id='nav-link-button'
+            className={classNames('nav-link', { active: activeSection === 'contact' })}
+        >
+            Contact
+        </a>
+    </button>
+    </Nav.Item> */}
         </Nav>
     );
 };
