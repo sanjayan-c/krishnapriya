@@ -75,9 +75,11 @@
 
 .fixed-image {
     width: 100%; /* Ensure it stretches across the card */
-    height: 220px; /* Fixed height for consistency */
+    height: 100%; /* Fixed height for consistency */
     object-fit: cover; /* Ensures the image scales properly */
     border-radius: 0.25rem; /* Optional: Add slight rounding to match card design */
+    display: block!important;
+    object-position: center; 
 }
 
 // custom positioning in card overlay
@@ -208,4 +210,16 @@
 .sticky-el {
     position: sticky;
     top: 50px;
+}
+
+#gallery-card .card-body {
+    padding: 0.5rem 1.5rem;
+}
+
+#gallery-page-card .card-body {
+    padding: 0.5rem 1.5rem;
+}
+
+#gallery-page-card {
+    margin-bottom: 0;
 }

@@ -11,7 +11,7 @@ const Testimonials = () => {
     return (
         <section
             id="testimonials"
-            className="section mt-5 py-4 py-sm-8 bg-gradient4 position-relative overflow-hidden"
+            className="section py-3 py-sm-6 bg-gradient4 position-relative overflow-hidden"
             data-aos="fade-up"
             data-aos-duration="600"
         >
@@ -19,15 +19,15 @@ const Testimonials = () => {
             <Container className="testimonials-3">
                 <Row className="align-items-center">
                     <Col>
-                        <h1 className="display-5 fw-medium">Kind words from excellent clients</h1>
+                        <h1 className="display-4 fw-bold">Kind words from excellent clients</h1>
                     </Col>
                     <Col xs="auto" className="text-sm-end pt-2 pt-sm-0">
                         <div className="navigations">
                             <Button variant="link" className="text-normal p-0 swiper-custom-prev">
-                                <FeatherIcon icon="arrow-left" className="icon-dual" />
+                                <FeatherIcon icon="arrow-left" className="icon-dual-primary" />
                             </Button>
                             <Button variant="link" className="text-normal p-0 swiper-custom-next">
-                                <FeatherIcon icon="arrow-right" className="icon-dual" />
+                                <FeatherIcon icon="arrow-right" className="icon-dual-primary" />
                             </Button>
                         </div>
                     </Col>

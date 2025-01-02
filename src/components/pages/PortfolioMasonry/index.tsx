@@ -18,7 +18,7 @@ const PortfolioMasonry = () => {
     return (
         <>
             {/* gallery */}
-            <div className="header-7 bg-gradient2">
+            <div className="header-7">
                 <Navbar3
                     navClass="custom-navbar-class zindex-10"
                     isSticky
@@ -26,15 +26,16 @@ const PortfolioMasonry = () => {
                     buttonClass="btn-outline-light btn-sm"
                 />
 
-                <section className="hero-4 pt-lg-6 pb-sm-9 pb-6 pt-9 mb-6">
+                <section className="hero-4 pt-lg-6 pb-sm-9 pb-6 pt-9 mb-6 bg-gradient2">
                     <Container>
                         <Row className="justify-content-center">
                             <Col lg={7} className="text-center">
-                                <h1 className="hero-title mb-0" style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                                {/* <h1 className="hero-title mb-0" style={{ color: '#ffffff', fontWeight: 'bold' }}> */}
+                                <h1 className="display-3 mb-0" style={{ color: '#ffffff', fontWeight: 'bold' }}>    
                                     Gallery
                                 </h1>
                                 <p className="mb-4 fs-17 mt-4" style={{ color: '#ffffff' }}>
-                                    The gallery showcases a curated collection of my artwork, reflecting my creative
+                                    The gallery showcases a collection of my artwork, my creative
                                     journey and vision.
                                 </p>
                             </Col>
@@ -58,7 +59,7 @@ const PortfolioMasonry = () => {
                     </div>
                 </section>
             </div>
-            <section className="overflow-hidden py-5 py-md-6 py-lg-7">
+            <section className="overflow-hidden pb-5 pb-md-6 pb-lg-7">
                 <Container>
                     <Gallery />
                 </Container>

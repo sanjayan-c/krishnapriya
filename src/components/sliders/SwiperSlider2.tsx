@@ -18,11 +18,14 @@ const SwiperSlider2 = ({ slides, hasLogo }: SwiperSliderProps) => {
             delay: 5000,
         },
         breakpoints: {
-            768: {
+            576: {
                 slidesPerView: 1,
             },
-            1024: {
+            768: {
                 slidesPerView: 2,
+            },
+            992: {
+                slidesPerView: 3,
             },
         },
         roundLengths: true,
@@ -42,7 +45,7 @@ const SwiperSlider2 = ({ slides, hasLogo }: SwiperSliderProps) => {
                         <Card className="mb-0 border rounded">
                             <Card.Body className="testimonial-body shadow">
                                 <p className="quotation-mark text-muted mb-0">“</p>
-                                <h4 className="fw-normal mb-3 mt-0">{slide.statement}</h4>
+                                <p className="fw-normal mb-3 mt-0">{slide.statement}</p>
                                 <hr />
                                 <div className="d-flex pt-2 align-items-center">
                                     {/* <img

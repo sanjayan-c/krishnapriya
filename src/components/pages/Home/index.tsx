@@ -30,9 +30,9 @@ const Home = () => {
 
             <PortfolioGrid />
 
-            <Testimonials/>
-
             <Blog />
+
+            <Testimonials/>
          
             <Contact />
 

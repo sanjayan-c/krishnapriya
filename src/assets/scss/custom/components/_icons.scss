@@ -46,6 +46,11 @@ $value in $icon-font-sizes {
     fill: rgba($gray-600, 0.12);
 }
 
+.icon-dual-primary {
+    color: $primary;
+    fill: rgba($primary, 0.12);
+}
+
 @each $color,
 $value in $theme-colors {
     .icon-dual-#{$color} {

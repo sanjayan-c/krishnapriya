@@ -59,18 +59,18 @@ const ContactUs = () => {
     };
 
     return (
-        <section id="contact" className="section pb-lg-7 py-4 position-relative">
+        <section id="contact" className="section pt-6 pb-5 position-relative">
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <h1 className="display-5 fw-semibold">Contact Me</h1>
+                        <h1 className="display-4 fw-bold">Let's Talk Further</h1>
                     </Col>
                 </Row>
                 <Row className="align-items-center">
                     <Col lg={6}>
                         <Card className="shadow-none">
                             <Card.Body className="p-xl-5 p-0">
-                                <h2 className="mb-2 mt-0 fw-medium">Let's Talk Further</h2>
+                                {/* <h2 className="mb-2 mt-0 fw-medium">Let's Talk Further</h2> */}
                                 <p className="mb-5">
                                     Please fill out the following form and we will get back to you shortly
                                 </p>
@@ -140,9 +140,21 @@ const ContactUs = () => {
                         </Card>
                     </Col>
 
-                    <Col lg={{ offset: 1, span: 5 }}>
+                    {/* <Col lg={{ offset: 1, span: 5 }}>
                         <div style={{ height: '520px' }}>
                             <GoogleMapReact defaultZoom={12} defaultCenter={{ lat: 40.749179, lng: -73.989276 }} />
+                        </div>
+                    </Col> */}
+                    <Col lg={{ span: 6 }}>
+                        <div style={{ height: '520px', overflow: 'hidden', borderRadius: '8px' }}>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.80615633057124!2d80.01317532482598!3d9.689703649604176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe5550ffb31311%3A0xd568c4feb027ce36!2z4K6a4K-B4K6q4K644K-N4K6k4K6-4K6p4K-N!5e0!3m2!1sen!2slk!4v1734982958227!5m2!1sen!2slk"
+                                width="100%"
+                                height="100%"
+                                style={{ border: '0' }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </Col>
                 </Row>

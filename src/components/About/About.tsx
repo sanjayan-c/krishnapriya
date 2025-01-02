@@ -1,40 +1,44 @@
 import { Link } from 'react-router-dom';
-import { Badge, Col, Container, Row } from 'react-bootstrap';
+import { Badge, Col, Container, Row, Button } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react';
 
 
 const About = () => {
     return (
-        <section id="about" className="pt-lg-6 pt-4 pb-lg-6 pb-5 position-relative overflow-hidden">
+        <section id="about" className="pt-5 pb-5 bg-gradient4 position-relative overflow-hidden">
             <Container>
-                <Row className="align-items-center mb-6 pb-lg-5">
-                    <Col lg={5}>
+                <Row className="align-items-center">
+                    
+                    <Col md={{ span: 4 }}
+                        className="d-flex justify-content-center align-items-center order-2 order-lg-1"
+                        >
+                        <img
+                            src={"https://exhibition202.netlify.app/static/media/image-placeholder.750af1fd37da065f2307.png"}
+                            alt="desktop1"
+                            className="img-fluid"
+                            data-aos="fade-right"
+                            data-aos-duration="1000"
+                        />
+                    </Col>
+                    <Col md={{ span: 7, offset: 1 }} className="order-1 order-lg-2">
                         <div className="mb-4 mb-lg-0">
-                            <h1 className="display-4 fw-medium mb-3">About Me</h1>
+                            <h1 className="display-4 fw-bold mb-4 pb-3">About Me</h1>
                             <p className="text-muted mx-auto mb-4 pb-3">
                                 You don't need to manully follow up with your visitors. The Prompt takes care of it and
                                 follow up automatically with them to understand their needs
                             </p>
-                            <Link to="#">
+                            {/* <Link to="#">
                                 Learn more
                                 <FeatherIcon icon="arrow-right" className="ms-1 icon-xxs" />
                             </Link>
                             <Link to="/article">
                                 Article
                                 <FeatherIcon icon="arrow-right" className="ms-1 icon-xxs" />
-                            </Link>
+                            </Link> */}
+                            {/* <Button variant="primary" size="lg" className="px-4">
+                            More Articles
+                        </Button> */}
                         </div>
-                    </Col>
-                    <Col lg={{ span: 6, offset: 1 }}
-                        className="d-flex justify-content-center align-items-center"
-                        >
-                        <img
-                            src={"https://exhibition202.netlify.app/static/media/image-placeholder.750af1fd37da065f2307.png"}
-                            alt="desktop1"
-                            className="img-fluid"
-                            data-aos="fade-left"
-                            data-aos-duration="1000"
-                        />
                     </Col>
                 </Row>
             </Container>

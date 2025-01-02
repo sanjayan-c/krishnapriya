@@ -7,6 +7,7 @@ const Login = React.lazy(() => import('../components/pages/Login'));
 const Dashboard = React.lazy(() => import('../components/pages/Dashboard'));
 const PortfolioMasonry = React.lazy(() => import('../components/pages/PortfolioMasonry'));
 const Article = React.lazy(() => import('../components/pages/Article'));
+const Exhibition = React.lazy(() => import('../components/pages/Exhibition'));
 
 // Fallback loading component
 const Loading = () => <div>Loading...</div>;
@@ -45,6 +46,10 @@ const AllRoutes: React.FC = () => {
                 {
                     path: 'article',
                     element: <LoadComponent component={Article} />
+                },
+                {
+                    path: 'exhibition',
+                    element: <LoadComponent component={Exhibition} />
                 },
                 {
                     path: '*',

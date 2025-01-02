@@ -32,35 +32,81 @@ export default function Example() {
                 <Row className="align-items-center">
                     {/* Left Section */}
                     <Col lg={6} className="text-center text-lg-start mb-5 mb-lg-0">
-                        <h1 className="display-4 fw-bold text-dark mb-4">Summer styles are finally here</h1>
+                        <h1 className="display-3 fw-bold text-dark mb-4">Summer styles are finally here</h1>
                         <p className="fs-5 text-muted mb-4">
                             This year, our new summer collection will shelter you from the harsh elements of a world
                             that doesn't care if you live or die.
                         </p>
-                        <Button variant="primary" size="lg" className="px-4">
+                        {/* <Button variant="primary" size="lg" className="px-4">
                             Shop Collection
-                        </Button>
+                        </Button> */}
                     </Col>
 
                     {/* Right Section: Faster Swapping Image Grid */}
-                    <Col lg={6} className="d-flex justify-content-center position-relative">
+                    {/* <Col lg={6} className="d-flex justify-content-lg-end justify-content-center position-relative">
                         <div className="d-flex gap-3">
-                            {/* Column 1 */}
                             <div className="d-flex flex-column gap-3">
                                 <img src={currentImages[0]} alt="Image 1" className="rounded image-transition" />
                                 <img src={currentImages[1]} alt="Image 2" className="rounded image-transition" />
                             </div>
 
-                            {/* Column 2 */}
                             <div className="d-flex flex-column gap-3 mt-5">
                                 <img src={currentImages[2]} alt="Image 3" className="rounded image-transition" />
                                 <img src={currentImages[3]} alt="Image 4" className="rounded image-transition" />
                             </div>
 
-                            {/* Column 3 */}
                             <div className="d-flex flex-column gap-3">
                                 <img src={currentImages[4]} alt="Image 5" className="rounded image-transition" />
                                 <img src={currentImages[5]} alt="Image 6" className="rounded image-transition" />
+                            </div>
+                        </div>
+                    </Col> */}
+                    <Col
+                        lg={6}
+                        className="d-flex justify-content-lg-end justify-content-center position-relative overflow-hidden"
+                        style={{ maxHeight: '100%' }}>
+                        <div className="d-flex gap-3 justify-content-center" style={{ overflow: 'hidden' }}>
+                            {/* Column 1 */}
+                            <div className="d-flex flex-column gap-3">
+                                <img
+                                    src={currentImages[0]}
+                                    alt="Image 1"
+                                    className="rounded image-transition"
+                                />
+                                <img
+                                    src={currentImages[1]}
+                                    alt="Image 2"
+                                    className="rounded image-transition"
+                                />
+                            </div>
+
+                            {/* Column 2 */}
+                            <div className="d-flex flex-column gap-3 mt-5">
+                                <img
+                                    src={currentImages[2]}
+                                    alt="Image 3"
+                                    className="rounded image-transition"
+                                />
+                                <img
+                                    src={currentImages[3]}
+                                    alt="Image 4"
+                                    className="rounded image-transition"
+                                />
+                            </div>
+
+                            {/* Column 3 */}
+                            <div className="d-flex flex-column gap-3">
+                                <img
+                                    src={currentImages[4]}
+                                    alt="Image 5"
+                                    className="rounded image-transition"
+                                />
+                                <img
+                                    src={currentImages[5]}
+                                    alt="Image 6"
+                                    className="rounded image-transition"
+                                    
+                                />
                             </div>
                         </div>
                     </Col>

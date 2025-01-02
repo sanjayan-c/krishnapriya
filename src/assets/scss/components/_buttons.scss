@@ -56,14 +56,16 @@
 
     &:hover {
         color: $link-hover-color;
-        text-decoration: $link-hover-decoration;
+        // text-decoration: $link-hover-decoration;
+        text-decoration: none;
         background-color: transparent;
         border-color: transparent;
     }
 
     &:focus,
     &.focus {
-        text-decoration: $link-hover-decoration;
+        // text-decoration: $link-hover-decoration;
+        text-decoration: none;;
         border-color: transparent;
         box-shadow: none;
     }
@@ -132,15 +134,15 @@ $value in $theme-colors {
 
 .btn-white-custom {
     border-color: $gray-300;
-    background-color: $gray-300;
-    color: $primary;
+    color: $gray-300;
+    padding: 0%;
     transition: $btn-transition;
     border-radius: $btn-border-radius;
 
     &:hover,
     &:focus {
-        color: $dark !important;
-        background-color: $white !important;
+        color: $primary;
+        background-color: $white;
         box-shadow: 0 1px 3px rgba(60, 72, 88, 0.15), 0 2px 4px 2px rgba(60, 72, 88, 0.18);
     }
 }
