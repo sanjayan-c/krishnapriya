@@ -157,6 +157,26 @@
             right: 1rem;
         }
     }
+
+    .card-zoom {
+        overflow: hidden!important;
+        border-radius: inherit;
+
+        img {
+            transition: $transition-base;
+            transform-origin: center center;
+            border-radius: inherit;
+        }
+    }
+    
+
+    &:hover {
+        .card-zoom {
+            img {
+                transform: scale(1.1);
+            }
+        }
+    }   
 }
 
 .card-portfolio-item {
