@@ -47,7 +47,8 @@ const Exhibition = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('http://localhost:8070/api/exhibitions');
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get(`${baseUrl}/api/exhibitions`);
                 const blogsData = response.data.map((blog: any) => ({
                     title: blog.title || 'No Title',
                     description: blog.description || 'No Description',

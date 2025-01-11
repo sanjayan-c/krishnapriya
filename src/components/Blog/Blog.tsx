@@ -114,7 +114,8 @@ const Blog = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('http://localhost:8070/api/exhibitions');
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get(`${baseUrl}/api/exhibitions`);
                 let fetchedBlogs = response.data.map((article: any) => ({
                     title: article.title,
                     description: article.description,

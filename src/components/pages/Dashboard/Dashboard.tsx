@@ -38,7 +38,8 @@ const Dashboard = () => {
     const [editingItem, setEditingItem] = useState<any>(null);
     const [currentTab, setCurrentTab] = useState<'gallery' | 'exhibition' | 'article'>('gallery');
 
-    const apiBase = 'http://localhost:8070/api';
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    const apiBase = `${baseUrl}/api`;
 
     useEffect(() => {
         fetchData();

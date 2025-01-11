@@ -149,7 +149,8 @@ const Gallery = () => {
     useEffect(() => {
         const fetchGalleryItems = async () => {
             try {
-                const response = await axios.get('http://localhost:8070/api/galleries');
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get(`${baseUrl}/api/galleries`);
                 const fetchedGalleryItems = response.data.map((item: any) => ({
                     ...item,
                     image: `data:image/png;base64,${item.image}`, // Convert Base64 to valid data URL

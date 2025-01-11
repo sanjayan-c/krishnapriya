@@ -152,7 +152,8 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
     useEffect(() => {
         const fetchGalleryItems = async () => {
             try {
-                const response = await axios.get('http://localhost:8070/api/galleries');
+                const baseUrl = process.env.REACT_APP_BASE_URL;
+                const response = await axios.get(`${baseUrl}/api/galleries`);
                 let fetchedGalleryItems = response.data;
                 fetchedGalleryItems = fetchedGalleryItems.slice(0, 3);
 

@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Badge, Col, Container, Row, Button } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react';
-
-
+import Artist from "../../assets/images/photos/artist.png";
 const About = () => {
     return (
         <section id="about" className="pt-5 pb-5 bg-gradient4 position-relative overflow-hidden">
@@ -13,7 +12,7 @@ const About = () => {
                         className="d-flex justify-content-center align-items-center order-2 order-lg-1"
                         >
                         <img
-                            src={"https://exhibition202.netlify.app/static/media/image-placeholder.750af1fd37da065f2307.png"}
+                            src={Artist}
                             alt="desktop1"
                             className="img-fluid"
                             data-aos="fade-right"
