@@ -7,8 +7,9 @@ const exhibitionRoutes = require("./exhibition");
 const articleRoutes = require("./article");
 const contactRoutes = require('./contact');
 
-const app = express();
 dotenv.config();
+
+const app = express();
 
 const PORT = process.env.PORT || 8070;
 
@@ -40,6 +41,4 @@ app.use("/api/articles", articleRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Start the Server
-app.listen(PORT, () => {
-    console.log("Server is up and running on port no " + PORT);
-});
+module.exports = app;
