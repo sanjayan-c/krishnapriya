@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { useRoutes, Navigate } from 'react-router-dom';
+import Loading from '../components/Loading/index';
 
 // Lazy-loaded components
 const Home = React.lazy(() => import('../components/pages/Home'));
@@ -8,9 +9,6 @@ const Dashboard = React.lazy(() => import('../components/pages/Dashboard'));
 const PortfolioMasonry = React.lazy(() => import('../components/pages/PortfolioMasonry'));
 const Article = React.lazy(() => import('../components/pages/Article'));
 const Exhibition = React.lazy(() => import('../components/pages/Exhibition'));
-
-// Fallback loading component
-const Loading = () => <div>Loading...</div>;
 
 type LoadComponentProps = {
     component: React.LazyExoticComponent<() => JSX.Element>;

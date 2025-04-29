@@ -127,6 +127,7 @@ import { Card } from 'react-bootstrap';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import axios from 'axios';
 import { LightBox, ImageType } from 'components/LightBox';
+import Loading from '../../Loading/index';
 
 type GalleryItem = {
     _id: string;
@@ -144,11 +145,13 @@ const Gallery = () => {
     const [photoIndex, setPhotoIndex] = useState<number>(0);
     const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set());
     const cardBodiesRef = useRef<(HTMLDivElement | null)[]>([]);
+    const [loading, setLoading] = useState(true);
 
     // Fetch gallery items from API
     useEffect(() => {
         const fetchGalleryItems = async () => {
-            try {
+            try {                
+                setLoading(true);
                 const baseUrl = process.env.REACT_APP_BASE_URL;
                 const response = await axios.get(`${baseUrl}/api/galleries`);
                 const fetchedGalleryItems = response.data.map((item: any) => ({
@@ -162,8 +165,10 @@ const Gallery = () => {
                         caption: item.title,
                     }))
                 );
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching gallery items:', error);
+                setLoading(false);
             }
         };
 
@@ -209,6 +214,17 @@ const Gallery = () => {
 
     const movePrev = () => setPhotoIndex((prev) => (prev + galleryImages.length - 1) % galleryImages.length);
 
+    if (loading) {
+        return (
+            <section
+                id="exhibition"
+                className="section pt-5 pb-5 d-flex justify-content-center align-items-center"
+                style={{ minHeight: '500px' }}>
+                <Loading style={{ width: 300, height: 300 }} />
+            </section>
+        );
+    }
+    
     return (
         <>
             <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 1024: 3 }}>

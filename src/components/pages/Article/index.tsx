@@ -155,6 +155,7 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
 import Navbar3 from 'components/navbars/Navbar3';
 import Footer from '../../Footer/Footer';
+import Loading from '../../Loading/index';
 
 type BlogPost = {
     title: string;
@@ -170,6 +171,8 @@ const Article = () => {
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
     const [maxHeight, setMaxHeight] = useState<number>(0); // Track maximum height for cards
     const cardBodiesRef = useRef<(HTMLDivElement | null)[]>([]); // Ref for card bodies
+
+    const [loading, setLoading] = useState(true);
 
     const formatDate = (dateString: string): string => {
         if (!dateString) return ''; // Return blank for empty dates
@@ -190,32 +193,49 @@ const Article = () => {
 
     useEffect(() => {
         const fetchLinksAndMetadata = async () => {
-            try {
-                const response = await axios.get('/links.json');
-                const links: string[] = response.data.links;
+            setLoading(true);
 
-                const blogsData: BlogPost[] = [];
-                for (const link of links) {
-                    try {
-                        const baseUrl = process.env.REACT_APP_BASE_URL;
-                        const metadataResponse = await axios.get(
-                            `${baseUrl}/api/articles/metadata?url=${encodeURIComponent(link)}`
-                        );
-                        const metadata = metadataResponse.data;
-                        blogsData.push({
-                            title: metadata.title || 'No Title',
-                            description: metadata.description || 'No Description',
-                            time: formatDate(metadata.date),
-                            img: metadata.image || DEFAULT_IMAGE,
-                            link: link,
-                        });
-                    } catch (error) {
-                        console.error(`Error fetching metadata for ${link}:`, error);
-                    }
-                }
+            try {
+                // 1) get the list of article URLs
+                const response = await axios.get('/links.json');
+                const links: string[] = response.data.links || [];
+
+                // 2) in parallel, fetch metadata for each link
+                const blogsData: BlogPost[] = await Promise.all(
+                    links.map(async (link) => {
+                        try {
+                            const baseUrl = process.env.REACT_APP_BASE_URL;
+                            const { data: metadata } = await axios.get(
+                                `${baseUrl}/api/articles/metadata?url=${encodeURIComponent(link)}`
+                            );
+                            return {
+                                title: metadata.title || 'No Title',
+                                description: metadata.description || 'No Description',
+                                time: formatDate(metadata.date),
+                                img: metadata.image || DEFAULT_IMAGE,
+                                link,
+                            };
+                        } catch (err) {
+                            console.error(`Error fetching metadata for ${link}:`, err);
+                            // return a “fallback” blog entry on error
+                            return {
+                                title: 'Error loading article',
+                                description: '',
+                                time: '',
+                                img: DEFAULT_IMAGE,
+                                link,
+                            };
+                        }
+                    })
+                );
+
+                // 3) update state once, after everything
                 setBlogs(blogsData);
-            } catch (error) {
-                console.error('Error fetching links:', error);
+            } catch (err) {
+                console.error('Error fetching links.json:', err);
+            } finally {
+                // 4) and *then* hide spinner
+                setLoading(false);
             }
         };
 
@@ -283,36 +303,51 @@ const Article = () => {
 
             <section id="exhibition" className="section position-relative pb-5 pb-md-6 pb-lg-7">
                 <Container>
-                    <Row className="mt-3">
-                        {blogs.map((blog, index) => (
-                            <Col md={4} key={index}>
-                                <a
-                                    href={blog.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-decoration-none d-block">
-                                    <Card className="shadow h-100" data-aos="fade-up" data-aos-duration="500">
-                                        <div className="card-img-top-overlay">
-                                            <div className="ratio ratio-4x3">
-                                                <img
-                                                    src={blog.img}
-                                                    alt="Image not available"
-                                                    className="card-img-top fixed-image"
-                                                />
-                                            </div>
-                                        </div>
-                                        <Card.Body
-                                            className="card-body-content"
-                                            style={{ minHeight: `${maxHeight}px` }}
-                                            ref={(el: HTMLDivElement | null) => (cardBodiesRef.current[index] = el)}>
-                                            <h4>{truncateTitle(blog.title)}</h4>
-                                            {blog.time && <p className="fs-13 align-middle mb-0">{blog.time}</p>}
-                                        </Card.Body>
-                                    </Card>
-                                </a>
-                            </Col>
-                        ))}
-                    </Row>
+                    {loading ? (
+                        <section
+                            id="exhibition"
+                            className="section pt-5 pb-5 d-flex justify-content-center align-items-center"
+                            style={{ minHeight: '500px' }}>
+                            <Loading style={{ width: 300, height: 300 }} />
+                        </section>
+                    ) : (
+                        <>
+                            <Row className="mt-3">
+                                {blogs.map((blog, index) => (
+                                    <Col md={4} key={index}>
+                                        <a
+                                            href={blog.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-decoration-none d-block">
+                                            <Card className="shadow h-100" data-aos="fade-up" data-aos-duration="500">
+                                                <div className="card-img-top-overlay">
+                                                    <div className="ratio ratio-4x3">
+                                                        <img
+                                                            src={blog.img}
+                                                            alt="Image not available"
+                                                            className="card-img-top fixed-image"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <Card.Body
+                                                    className="card-body-content"
+                                                    style={{ minHeight: `${maxHeight}px` }}
+                                                    ref={(el: HTMLDivElement | null) =>
+                                                        (cardBodiesRef.current[index] = el)
+                                                    }>
+                                                    <h4>{truncateTitle(blog.title)}</h4>
+                                                    {blog.time && (
+                                                        <p className="fs-13 align-middle mb-0">{blog.time}</p>
+                                                    )}
+                                                </Card.Body>
+                                            </Card>
+                                        </a>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </>
+                    )}
                 </Container>
             </section>
             <Footer />

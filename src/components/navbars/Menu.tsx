@@ -233,11 +233,6 @@ const Menu = ({ navClass }: MenuProps) => {
                         Articles
                     </a>
                 </Nav.Item>
-                <Nav.Item as="li">
-                    <a href="/#contact" className={classNames('nav-link', { active: activeSection === 'contact' })}>
-                        Contact
-                    </a>
-                </Nav.Item>
             </div>
 
             <span className="navbar-text">

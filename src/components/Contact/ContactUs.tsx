@@ -166,10 +166,10 @@ const ContactUs = () => {
                                 <FeatherIcon icon="mail" className="icon-dual-primary" />
                             </span>
                             <div className="flex-grow-1">
-                                <h5 className="m-0 fw-medium">Email</h5>
-                                <Link to="#" className="text-muted fw-normal h5 my-1">
-                                    youremail@gmail.com
-                                </Link>
+                                <h5 className="m-0 fw-medium">Email</h5>+{' '}
+                                <a href="mailto:krishpri30@gmail.com" className="text-muted fw-normal h5 my-1">
+                                    krishpri30@gmail.com
+                                </a>
                             </div>
                         </div>
                     </Col>
@@ -181,9 +181,9 @@ const ContactUs = () => {
                             </span>
                             <div className="flex-grow-1">
                                 <h5 className="m-0 fw-medium">Phone</h5>
-                                <Link to="#" className="text-muted fw-normal h5 my-1">
-                                    +00 123 456 7890
-                                </Link>
+                                <a href="tel:+94778546681" className="text-muted fw-normal h5 my-1">
+                                    +94 77 854 6681
+                                </a>
                             </div>
                         </div>
                     </Col>
@@ -195,9 +195,13 @@ const ContactUs = () => {
                             </span>
                             <div className="flex-grow-1">
                                 <h5 className="m-0 fw-medium">Address</h5>
-                                <Link to="#" className="text-muted fw-normal h5 my-1">
+                                <a
+                                    href="https://www.google.com/maps/search/?api=1&query=565+Brrom+Str,+NY"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-muted fw-normal h5 my-1">
                                     565 Brrom Str, NY
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </Col>

@@ -4,7 +4,8 @@ import FeatherIcon from 'feather-icons-react';
 import Artist from "../../assets/images/photos/artist.png";
 const About = () => {
     return (
-        <section id="about" className="pt-5 pb-5 bg-gradient4 position-relative overflow-hidden">
+        // <section id="about" className="pt-5 pb-5 pb-lg-0 bg-gradient4 position-relative overflow-hidden">
+        <section id="about" className="pt-5 pb-5 pb-lg-0 position-relative overflow-hidden">
             <Container>
                 <Row className="align-items-center">
                     
@@ -19,8 +20,8 @@ const About = () => {
                             data-aos-duration="1000"
                         />
                     </Col>
-                    <Col md={{ span: 7, offset: 1 }} className="order-1 order-lg-2">
-                        <div className="mb-4 mb-lg-0">
+                    <Col md={{ span: 7, offset: 1 }} className="order-2 order-lg-2">
+                        <div className="mt-5 mt-lg-0 mb-4 mb-lg-0">
                             <h1 className="display-4 fw-bold mb-4 pb-3">About Me</h1>
                             <p className="text-muted mx-auto mb-4 pb-3">
                                 You don't need to manully follow up with your visitors. The Prompt takes care of it and

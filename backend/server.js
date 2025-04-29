@@ -41,8 +41,8 @@ app.use("/api/articles", articleRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Start the Server
-module.exports = app;
+// module.exports = app;
 // Start the Server
-// app.listen(PORT, () => {
-//     console.log("Server is up and running on port no " + PORT);
-// });
+app.listen(PORT, () => {
+    console.log("Server is up and running on port no " + PORT);
+});

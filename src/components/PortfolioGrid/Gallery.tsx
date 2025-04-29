@@ -133,6 +133,7 @@ import axios from 'axios';
 
 import { LightBox, ImageType } from 'components/LightBox';
 import { GalleryItem } from './types';
+import Loading from '../Loading/index';
 
 type GalleryProps = {
     galleryItems?: GalleryItem[];
@@ -147,11 +148,13 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
     const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set()); // Track expanded cards
     const [maxHeight, setMaxHeight] = useState<number>(0); // State to store the max height
     const cardBodiesRef = useRef<(HTMLDivElement | null)[]>([]); // Ref for storing card body elements
+    const [loading, setLoading] = useState(true);
 
     // Fetch gallery items on mount
     useEffect(() => {
         const fetchGalleryItems = async () => {
             try {
+                setLoading(true);
                 const baseUrl = process.env.REACT_APP_BASE_URL;
                 const response = await axios.get(`${baseUrl}/api/galleries`);
                 let fetchedGalleryItems = response.data;
@@ -164,8 +167,10 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
                         caption: item.title || '', // Use the title as caption
                     }))
                 );
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching gallery items:', error);
+                setLoading(false);
             }
         };
 
@@ -217,6 +222,17 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
         };
     }, [gallery]);
 
+    if (loading) {
+        return (
+            <section
+                id="exhibition"
+                className="section pt-5 pb-5 d-flex justify-content-center align-items-center"
+                style={{ minHeight: '300px' }}>
+                <Loading style={{ width: 100, height: 100 }} />
+            </section>
+        );
+    }
+    
     return (
         <>
             <Row className="grid-portfolio mt-5 justify-content-center">

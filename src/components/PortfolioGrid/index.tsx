@@ -15,7 +15,7 @@ const PortfolioGrid = () => {
                 <Container>
                     <Row>
                         <Col className="text-center">
-                            <h1 className="display-4 fw-bold">View my drawings</h1>
+                            <h1 className="display-4 fw-bold">View my art works</h1>
                         </Col>
                     </Row>
                     <Gallery galleryItems={limitedGalleryItems} />
