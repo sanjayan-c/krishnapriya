@@ -1,177 +1,161 @@
-// import { Container, Row, Col, Button } from 'react-bootstrap';
-// import { useEffect, useState } from 'react';
+// src/components/Hero/HeroImagesRow.tsx
+import React, { useEffect, useState, useCallback } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-// // Image URLs
-// const images = [
-//     'https://i.pinimg.com/236x/7f/93/3c/7f933cd6388df474902514f446d5b8a8.jpg',
-//     'https://cdn.shopify.com/s/files/1/0625/3818/6989/files/1_c9b5f45f-2c05-48cd-b8ce-9b151dc252f9.jpg?v=1676784144',
-//     'https://5.imimg.com/data5/ANDROID/Default/2022/6/XE/DZ/WE/124730190/product-jpeg-500x500.jpg',
-//     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC7m4qxbmdaU5sx2C-Cfar-28DrwnJpQQ-wQ&s',
-//     'https://rukminim2.flixcart.com/image/850/1000/jy7kyvk0/painting/h/2/g/p0670-paf-original-imafhnggafz8fcrd.jpeg?q=90&crop=false',
-//     'https://images.saatchiart.com/saatchi/298693/art/12137819/11200017-ESAXKDTA-6.jpg',
-// ];
+import img1 from '../../assets/images/photos/hero/1.jpg';
+import img2 from '../../assets/images/photos/hero/2.jpg';
+import img3 from '../../assets/images/photos/hero/3.jpg';
+import img4 from '../../assets/images/photos/hero/4.jpg';
+import img5 from '../../assets/images/photos/hero/5.jpg';
+import img6 from '../../assets/images/photos/hero/6.jpg';
+import img7 from '../../assets/images/photos/hero/7.jpg';
+import img8 from '../../assets/images/photos/hero/8.jpg';
+import img9 from '../../assets/images/photos/hero/9.jpg';
+import img10 from '../../assets/images/photos/hero/10.jpg';
 
-// export default function Example() {
-//     const [currentImages, setCurrentImages] = useState(images);
+// Full array of ten images
+const IMAGES = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
 
-//     useEffect(() => {
-//         const interval = setInterval(() => {
-//             setCurrentImages((prevImages) => {
-//                 const updatedImages = [...prevImages];
-//                 updatedImages.push(updatedImages.shift()!); // Rotate images
-//                 return updatedImages;
-//             });
-//         }, 3000); // Transition every 3 seconds (reduced)
+export default function Example() {
+    // State for rotating the array
+    const [currentImages, setCurrentImages] = useState<string[]>(IMAGES);
+    // How many images to show in one row
+    const [visibleCount, setVisibleCount] = useState<number>(10);
 
-//         return () => clearInterval(interval);
-//     }, []);
+    // Function to update visibleCount based on window.innerWidth
+    const updateVisibleCount = useCallback(() => {
+        const w = window.innerWidth;
+        if (w >= 1200) {
+            setVisibleCount(9);
+        } else if (w >= 992) {
+            setVisibleCount(7);
+        } else if (w >= 768) {
+            setVisibleCount(5);
+        } else if (w >= 576) {
+            setVisibleCount(5);
+        } else {
+            setVisibleCount(3);
+        }
+    }, []);
 
-//     return (
-//         <section id="home" className="bg-white overflow-hidden py-5 hero-section">
-//             <Container>
-//                 <Row className="align-items-center">
-//                     {/* Left Section */}
-//                     <Col lg={6} className="text-center text-lg-start mb-5 mb-lg-0">
-//                         <h1 className="display-3 fw-bold text-dark mb-4">Summer styles are finally here</h1>
-//                         <p className="fs-5 text-muted mb-4">
-//                             This year, our new summer collection will shelter you from the harsh elements of a world
-//                             that doesn't care if you live or die.
-//                         </p>
-//                         {/* <Button variant="primary" size="lg" className="px-4">
-//                             Shop Collection
-//                         </Button> */}
-//                     </Col>
+    // On mount, set initial visibleCount and listen for resize
+    useEffect(() => {
+        updateVisibleCount();
+        window.addEventListener('resize', updateVisibleCount);
+        return () => {
+            window.removeEventListener('resize', updateVisibleCount);
+        };
+    }, [updateVisibleCount]);
 
-//                     {/* Right Section: Faster Swapping Image Grid */}
-//                     {/* <Col lg={6} className="d-flex justify-content-lg-end justify-content-center position-relative">
-//                         <div className="d-flex gap-3">
-//                             <div className="d-flex flex-column gap-3">
-//                                 <img src={currentImages[0]} alt="Image 1" className="rounded image-transition" />
-//                                 <img src={currentImages[1]} alt="Image 2" className="rounded image-transition" />
-//                             </div>
+    // Rotate the entire array every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImages((prev) => {
+                const updated = [...prev];
+                updated.push(updated.shift()!); // take the first element to the end
+                return updated;
+            });
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
-//                             <div className="d-flex flex-column gap-3 mt-5">
-//                                 <img src={currentImages[2]} alt="Image 3" className="rounded image-transition" />
-//                                 <img src={currentImages[3]} alt="Image 4" className="rounded image-transition" />
-//                             </div>
+    // Only render the first `visibleCount` images in the row
+    const imagesToShow = currentImages.slice(0, visibleCount);
 
-//                             <div className="d-flex flex-column gap-3">
-//                                 <img src={currentImages[4]} alt="Image 5" className="rounded image-transition" />
-//                                 <img src={currentImages[5]} alt="Image 6" className="rounded image-transition" />
-//                             </div>
-//                         </div>
-//                     </Col> */}
-//                     <Col
-//                         lg={6}
-//                         className="d-flex justify-content-lg-end justify-content-center position-relative overflow-hidden"
-//                         style={{ maxHeight: '100%' }}>
-//                         <div className="d-flex gap-3 justify-content-center" style={{ overflow: 'hidden' }}>
-//                             {/* Column 1 */}
-//                             <div className="d-flex flex-column gap-3">
-//                                 <img
-//                                     src={currentImages[0]}
-//                                     alt="Image 1"
-//                                     className="rounded image-transition"
-//                                 />
-//                                 <img
-//                                     src={currentImages[1]}
-//                                     alt="Image 2"
-//                                     className="rounded image-transition"
-//                                 />
-//                             </div>
+    return (
+        <section id="home" className="overflow-hidden py-5 hero-section" style={{ backgroundColor: '#5B002D' }}>
+            <Container fluid>
+                <Row className="justify-content-center">
+                    <Col xs={12}>
+                        <div
+                            className="d-flex justify-content-center align-items-center flex-nowrap"
+                            style={{
+                                gap: '1rem',
+                                overflow: 'hidden',
+                                padding: '1rem 0',
+                            }}>
+                            {imagesToShow.map((src, idx) => (
+                                <div
+                                    key={idx}
+                                    className="image-container"
+                                    style={{
+                                        // Calculate width so that `visibleCount` images fill 100% (minus gaps)
+                                        flex: `0 0 calc((100% - ${(visibleCount - 1) * 1}rem) / ${visibleCount})`,
+                                        // Stagger every other image by pushing it down 50px
+                                        marginTop: idx % 2 === 1 ? '25px' : '0',
+                                    }}>
+                                    <Link to="/gallery">
+                                        <img
+                                            src={src}
+                                            alt={`Hero ${idx + 1}`}
+                                            className="rounded image-transition"
+                                            style={{
+                                                width: '100%',
+                                                height: '250px',
+                                                objectFit: 'cover',
+                                                cursor: 'pointer',
+                                            }}
+                                        />
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
 
-//                             {/* Column 2 */}
-//                             <div className="d-flex flex-column gap-3 mt-5">
-//                                 <img
-//                                     src={currentImages[2]}
-//                                     alt="Image 3"
-//                                     className="rounded image-transition"
-//                                 />
-//                                 <img
-//                                     src={currentImages[3]}
-//                                     alt="Image 4"
-//                                     className="rounded image-transition"
-//                                 />
-//                             </div>
-
-//                             {/* Column 3 */}
-//                             <div className="d-flex flex-column gap-3">
-//                                 <img
-//                                     src={currentImages[4]}
-//                                     alt="Image 5"
-//                                     className="rounded image-transition"
-//                                 />
-//                                 <img
-//                                     src={currentImages[5]}
-//                                     alt="Image 6"
-//                                     className="rounded image-transition"
-                                    
-//                                 />
-//                             </div>
-//                         </div>
-//                     </Col>
-//                 </Row>
-//             </Container>
-
-//             {/* Global CSS */}
-//             <style>{`
-//                 .image-transition {
-//                     height: 250px;
-//                     width: 180px;
-//                     object-fit: cover;
-//                     transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Reduced duration */
-//                     opacity: 0.9;
-//                 }
-
-//                 .image-transition:hover {
-//                     transform: scale(1.03); /* Slight zoom effect on hover */
-//                     opacity: 1;
-//                 }
-
-//                 /* Media Query for smaller screens */
-//   @media (max-width: 992px) {
-//     .hero-section {
-//       padding-top: 12em!important;
-//     }
-//             }
-//             `}</style>
-//         </section>
-//     );
-// }
-
-
-import React from 'react';
-import desktopBanner from '../../assets/images/photos/desktop_banner2.png';
-import mobileBanner  from '../../assets/images/photos/mobile_banner2.png';
-
-export default function Hero() {
-  return (
-    <section id="home" className="hero-section p-0">
-      {/* Desktop image: hidden below lg */}
-      <div className="d-none d-md-block">
-        <img
-          src={desktopBanner}
-          alt="Banner featuring Krishna Priya's artwork"
-          className="img-fluid w-100"
-        />
-      </div>
-
-      {/* Mobile image: shown below lg */}
-      <div className="d-block d-md-none">
-        <img
-          src={mobileBanner}
-          alt="Banner featuring Krishna Priya's artwork"
-          className="img-fluid w-100"
-        />
-      </div>
-
-      <style>{`
-        .hero-section {
-          position: relative;
-          overflow: hidden;
+            {/* Hover/transition CSS (unchanged) */}
+            <style>{`
+        .image-transition {
+          transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+          opacity: 0.9;
+        }
+        .image-transition:hover {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+        @media (max-width: 992px) {
+          .hero-section {
+            padding-top: 8em !important;
+          }
         }
       `}</style>
-    </section>
-  );
+        </section>
+    );
 }
 
+// import React from 'react';
+// import desktopBanner from '../../assets/images/photos/desktop_banner2.png';
+// import mobileBanner  from '../../assets/images/photos/mobile_banner2.png';
+
+// export default function Hero() {
+//   return (
+//     <section id="home" className="hero-section p-0">
+//       {/* Desktop image: hidden below lg */}
+//       <div className="d-none d-md-block">
+//         <img
+//           src={desktopBanner}
+//           alt="Banner featuring Krishna Priya's artwork"
+//           className="img-fluid w-100"
+//         />
+//       </div>
+
+//       {/* Mobile image: shown below lg */}
+//       <div className="d-block d-md-none">
+//         <img
+//           src={mobileBanner}
+//           alt="Banner featuring Krishna Priya's artwork"
+//           className="img-fluid w-100"
+//         />
+//       </div>
+
+//       <style>{`
+//         .hero-section {
+//           position: relative;
+//           overflow: hidden;
+//         }
+//       `}</style>
+//     </section>
+//   );
+// }

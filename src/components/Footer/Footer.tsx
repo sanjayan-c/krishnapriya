@@ -21,7 +21,7 @@ const Footer = () => {
                         </Link>
                         <div className="">
                             <p className="mt-3 mb-1 text-dark">
-                                At vero eos et accusamus et iusto dignissimos ducimus odio.
+                                Cartographer of the invisible, revealing hidden terrains of memory and micro-worlds through every delicate line.
                             </p>
                         </div>
                         <div className="d-flex mt-5 mb-5">
@@ -34,12 +34,12 @@ const Footer = () => {
                             <span className="footer-text">
                                 <div className="footer-social-icon">
                                     <a
-                                        href="https://www.instagram.com/l_o_l_l_y_g_a_g_201"
+                                        href="https://www.facebook.com/krish.pri.1"
                                         target="_blank"
                                         rel="noopener noreferrer">
                                         <img
                                             src={navIcon4}
-                                            alt="Sanjayan Facebook Profile"
+                                            alt="Krishnapriya Facebook Profile"
                                             className="footer-social-icon-img"
                                         />
                                         <img
@@ -49,12 +49,12 @@ const Footer = () => {
                                         />
                                     </a>
                                     <a
-                                        href="https://www.instagram.com/l_o_l_l_y_g_a_g_201"
+                                        href="https://www.instagram.com/krish.pri"
                                         target="_blank"
                                         rel="noopener noreferrer">
                                         <img
                                             src={navIcon3}
-                                            alt="Sanjayan Instagram Profile"
+                                            alt="Krishnapriya Instagram Profile"
                                             className="footer-social-icon-img"
                                         />
                                         <img

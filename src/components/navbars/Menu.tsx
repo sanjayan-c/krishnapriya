@@ -237,16 +237,16 @@ const Menu = ({ navClass }: MenuProps) => {
 
             <span className="navbar-text">
                 <div className="social-icon">
-                    <a href="https://www.instagram.com/l_o_l_l_y_g_a_g_201" target="_blank" rel="noopener noreferrer">
-                        <img src={navIcon4} alt="Sanjayan Facebook Profile" className="social-icon-img" />
+                    <a href="https://www.facebook.com/krish.pri.1" target="_blank" rel="noopener noreferrer">
+                        <img src={navIcon4} alt="Krishnapriya Facebook Profile" className="social-icon-img" />
                         <img
                             src={navIcon4Hover}
                             alt="Sanjayan Instagram Profile Hover"
                             className="social-icon-img-hover"
                         />
                     </a>
-                    <a href="https://www.instagram.com/l_o_l_l_y_g_a_g_201" target="_blank" rel="noopener noreferrer">
-                        <img src={navIcon3} alt="Sanjayan Instagram Profile" className="social-icon-img" />
+                    <a href="https://www.instagram.com/krish.pri" target="_blank" rel="noopener noreferrer">
+                        <img src={navIcon3} alt="Krishnapriya Instagram Profile" className="social-icon-img" />
                         <img
                             src={navIcon3Hover}
                             alt="Sanjayan Instagram Profile Hover"
