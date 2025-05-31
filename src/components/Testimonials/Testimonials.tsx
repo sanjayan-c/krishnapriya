@@ -19,7 +19,7 @@ const Testimonials = () => {
             <Container className="testimonials-3">
                 <Row className="align-items-center">
                     <Col>
-                        <h1 className="display-4 fw-bold">Kind words from excellent clients</h1>
+                        <h1 className="display-4 fw-bold">Words from Art Enthusiasts</h1>
                     </Col>
                     <Col xs="auto" className="text-sm-end pt-2 pt-sm-0">
                         <div className="navigations">
