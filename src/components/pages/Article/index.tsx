@@ -156,6 +156,7 @@ import axios from 'axios';
 import Navbar3 from 'components/navbars/Navbar3';
 import Footer from '../../Footer/Footer';
 import Loading from '../../Loading/index';
+import placeholder from '../../../assets/images/photos/no_image_placeholder.png';
 
 type BlogPost = {
     title: string;
@@ -165,7 +166,6 @@ type BlogPost = {
     link: string;
 };
 
-const DEFAULT_IMAGE = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTo-02XhMYW_2-8ITemzxz95v5Ed6jBPq7HQ&s';
 
 const Article = () => {
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -212,7 +212,7 @@ const Article = () => {
                                 title: metadata.title || 'No Title',
                                 description: metadata.description || 'No Description',
                                 time: formatDate(metadata.date),
-                                img: metadata.image || DEFAULT_IMAGE,
+                                img: metadata.image || placeholder,
                                 link,
                             };
                         } catch (err) {
@@ -222,7 +222,7 @@ const Article = () => {
                                 title: 'Error loading article',
                                 description: '',
                                 time: '',
-                                img: DEFAULT_IMAGE,
+                                img: placeholder,
                                 link,
                             };
                         }
