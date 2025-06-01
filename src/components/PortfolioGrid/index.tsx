@@ -3,11 +3,7 @@ import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 
 import Gallery from './Gallery';
 
-// dummy data
-import { galleryItems } from './data';
-
 const PortfolioGrid = () => {
-    const limitedGalleryItems = galleryItems.slice(0, 3);
 
     return (
         <>
@@ -18,7 +14,7 @@ const PortfolioGrid = () => {
                             <h1 className="display-4 fw-bold">View my art works</h1>
                         </Col>
                     </Row>
-                    <Gallery galleryItems={limitedGalleryItems} />
+                    <Gallery />
                 </Container>
             </section>
         </>

@@ -171,6 +171,13 @@ const Exhibition = () => {
                             style={{ minHeight: '500px' }}>
                             <Loading style={{ width: 300, height: 300 }} />
                         </section>
+                    ) : blogs.length === 0 ? (
+                        <section
+                            id="exhibition"
+                            className="section pt-5 pb-5 d-flex justify-content-center align-items-center text-center"
+                            style={{ minHeight: '300px' }}>
+                            <p className="text-muted">No exhibitions found.</p>
+                        </section>
                     ) : (
                         <>
                             <Row className="grid-portfolio mt-5">

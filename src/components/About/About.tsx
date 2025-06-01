@@ -5,7 +5,7 @@ import Artist from '../../assets/images/photos/artist.png';
 const About = () => {
     return (
         // <section id="about" className="pt-5 pb-5 pb-lg-0 bg-gradient4 position-relative overflow-hidden">
-        <section id="about" className="pt-5 pb-5 pb-lg-0 position-relative overflow-hidden">
+        <section id="about" className="pt-5 pb-5 pb-lg-0 bg-gradient4 position-relative overflow-hidden">
             <Container>
                 <Row className="align-items-center">
                     <Col

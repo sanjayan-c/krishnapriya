@@ -223,6 +223,13 @@ const Blog = () => {
                     <Row className="justify-content-center my-5">
                         <Loading style={{ width: 100, height: 100 }} />
                     </Row>
+                ) : limitedBlogs.length === 0 ? (
+                    <section
+                        id="exhibition"
+                        className="section pt-5 pb-5 d-flex justify-content-center align-items-center text-center"
+                        style={{ minHeight: '300px' }}>
+                        <p className="text-muted">No exhibitions found.</p>
+                    </section>
                 ) : (
                     <>
                         <Row className="grid-portfolio mt-5">

@@ -139,10 +139,10 @@ type GalleryProps = {
     galleryItems?: GalleryItem[];
 };
 
-const Gallery = ({ galleryItems = [] }: GalleryProps) => {
-    const [gallery, setGallery] = useState<GalleryItem[]>(galleryItems);
+const Gallery = () => {
+    const [gallery, setGallery] = useState<GalleryItem[]>([]);
     const [category, setCategory] = useState<string>('all');
-    const [galleryImages, setGalleryImages] = useState<ImageType[]>(galleryItems.map((album) => album.image));
+    const [galleryImages, setGalleryImages] = useState<ImageType[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [photoIndex, setPhotoIndex] = useState<number>(0);
     const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set()); // Track expanded cards
@@ -232,7 +232,16 @@ const Gallery = ({ galleryItems = [] }: GalleryProps) => {
             </section>
         );
     }
-    
+
+    // Show “no data” message if the fetched array is empty
+    if (gallery.length === 0) {
+        return (
+            <section id="gallery" className="py-5">
+                <div className="text-center text-muted">No artworks found.</div>
+            </section>
+        );
+    }
+
     return (
         <>
             <Row className="grid-portfolio mt-5 justify-content-center">

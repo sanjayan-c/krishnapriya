@@ -225,6 +225,15 @@ const Gallery = () => {
         );
     }
     
+        // Show “no data” message if the fetched array is empty
+    if (gallery.length === 0) {
+        return (
+            <section id="gallery" className="py-5">
+                <div className="text-center text-muted">No artworks found.</div>
+            </section>
+        );
+    }
+    
     return (
         <>
             <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 1024: 3 }}>
