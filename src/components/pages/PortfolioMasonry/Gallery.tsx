@@ -264,7 +264,7 @@ const Gallery = () => {
                                     <h5 className="flex-grow-1" style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}>
                                         {galleryItem.title}
                                     </h5>
-                                    <button
+                                    {/* <button
                                         className="toggle-button"
                                         onClick={() => toggleDescription(index)}
                                         style={{
@@ -279,11 +279,11 @@ const Gallery = () => {
                                         ) : (
                                             <i className="ms-2">▼</i>
                                         )}
-                                    </button>
+                                    </button> */}
                                 </div>
-                                {expandedCards.has(index) && (
+                                {/* {expandedCards.has(index) && (
                                     <p className="mt-3 text-muted">{galleryItem.description}</p>
-                                )}
+                                )} */}
                             </Card.Body>
                         </Card>
                     ))}

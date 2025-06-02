@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Menu from './Menu';
 
 // images
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/MemArk.png';
 
 type Navbar3Props = {
     isSticky?: boolean;

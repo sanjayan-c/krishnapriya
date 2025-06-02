@@ -1,5 +1,6 @@
-import { Badge, Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Row, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -18,6 +19,10 @@ type ContactFormData = {
 };
 
 const ContactUs = () => {
+    const [successMsg, setSuccessMsg] = useState<string | null>(null);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [submitting, setSubmitting] = useState<boolean>(false);
+
     // form validation schema
     const schemaResolver = yupResolver(
         yup.object().shape({
@@ -35,10 +40,15 @@ const ContactUs = () => {
         register,
         control,
         formState: { errors },
+        reset,
     } = methods;
 
     // handle form submission
     const onSubmit = async (data: ContactFormData) => {
+        setSuccessMsg(null);
+        setErrorMsg(null);
+        setSubmitting(true);
+
         try {
             const baseUrl = process.env.REACT_APP_BASE_URL;
             const response = await fetch(`${baseUrl}/api/contact`, {
@@ -49,13 +59,21 @@ const ContactUs = () => {
 
             const result = await response.json();
             if (response.ok) {
-                alert(result.message);
+                // Show the success message
+                setSuccessMsg(
+                    result.message ||
+                        'Thank you for reaching out! I received your message and will get back to you shortly.'
+                );
+                reset(); // clear the form fields
             } else {
-                alert(result.error);
+                // Show the error returned by backend
+                setErrorMsg(result.error || 'An error occurred. Please try again later.');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            setErrorMsg('An error occurred. Please check your connection and try again.');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -76,7 +94,7 @@ const ContactUs = () => {
                                     Please fill out the following form and we will get back to you shortly
                                 </p>
 
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                                <form className="mb-3" onSubmit={handleSubmit(onSubmit)}>
                                     <Row>
                                         <Col md={6}>
                                             <FormInput
@@ -128,7 +146,17 @@ const ContactUs = () => {
                                             />
                                         </Col>
                                         <Col lg="auto" className="mb-0">
-                                            <Button type="submit">
+                                            <Button type="submit" disabled={submitting}>
+                                                {submitting && (
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="border"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                        className="me-2"
+                                                    />
+                                                )}
                                                 Send
                                                 <span className="icon icon-xs text-white ms-1">
                                                     <FeatherIcon icon="send" />
@@ -137,6 +165,17 @@ const ContactUs = () => {
                                         </Col>
                                     </Row>
                                 </form>
+                                {/* Display success or error alerts */}
+                                {successMsg && (
+                                    <Alert variant="success" onClose={() => setSuccessMsg(null)} dismissible>
+                                        {successMsg}
+                                    </Alert>
+                                )}
+                                {errorMsg && (
+                                    <Alert variant="danger" onClose={() => setErrorMsg(null)} dismissible>
+                                        {errorMsg}
+                                    </Alert>
+                                )}
                             </Card.Body>
                         </Card>
                     </Col>
@@ -149,7 +188,7 @@ const ContactUs = () => {
                     <Col lg={{ span: 6 }}>
                         <div style={{ height: '520px', overflow: 'hidden', borderRadius: '8px' }}>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.80615633057124!2d80.01317532482598!3d9.689703649604176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe5550ffb31311%3A0xd568c4feb027ce36!2z4K6a4K-B4K6q4K644K-N4K6k4K6-4K6p4K-N!5e0!3m2!1sen!2slk!4v1734982958227!5m2!1sen!2slk"
+                                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d551.8160547459928!2d80.01344802171677!3d9.689767437476673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOcKwNDEnMjIuOCJOIDgwwrAwMCc0OC45IkU!5e0!3m2!1sen!2slk!4v1748844147412!5m2!1sen!2slk"
                                 width="100%"
                                 height="100%"
                                 style={{ border: '0' }}
@@ -166,7 +205,7 @@ const ContactUs = () => {
                                 <FeatherIcon icon="mail" className="icon-dual-primary" />
                             </span>
                             <div className="flex-grow-1">
-                                <h5 className="m-0 fw-medium">Email</h5>+{' '}
+                                <h5 className="m-0 fw-medium">Email</h5>
                                 <a href="mailto:krishpri30@gmail.com" className="text-muted fw-normal h5 my-1">
                                     krishpri30@gmail.com
                                 </a>
@@ -196,11 +235,11 @@ const ContactUs = () => {
                             <div className="flex-grow-1">
                                 <h5 className="m-0 fw-medium">Address</h5>
                                 <a
-                                    href="https://www.google.com/maps/search/?api=1&query=565+Brrom+Str,+NY"
+                                    href="https://maps.app.goo.gl/FmK8azZm6Hz9tqcQA"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-muted fw-normal h5 my-1">
-                                    565 Brrom Str, NY
+                                    1030 K.K.S Road, Jaffna, Sri Lanka
                                 </a>
                             </div>
                         </div>
