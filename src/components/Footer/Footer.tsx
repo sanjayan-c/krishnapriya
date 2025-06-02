@@ -7,7 +7,7 @@ import navIcon3Hover from '../../assets/images/social/nav-icon3-pink.svg';
 import navIcon4Hover from '../../assets/images/social/nav-icon4-pink.svg';
 
 // images
-import logo from 'assets/images/logo-dark.png';
+import logo from 'assets/images/MemArk-Dark-Logo.png';
 
 const Footer = () => {
     return (
@@ -122,7 +122,7 @@ const Footer = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <p className="mt-lg-5 pt-4 mb-lg-0 mb-4 text-dark">Priya 2024. All rights reserved.</p>
+                    <p className="mt-lg-5 pt-4 mb-lg-0 mb-4 text-dark">MemArk 2025. All rights reserved.</p>
                 </Row>
             </Container>
         </section>

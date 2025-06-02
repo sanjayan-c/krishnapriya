@@ -22,15 +22,15 @@ const About = () => {
                     <Col md={{ span: 7, offset: 1 }} className="order-2 order-lg-2">
                         <div className="mt-5 mt-lg-0 mb-4 mb-lg-0">
                             <h1 className="display-4 fw-bold mb-4 pb-3">About Me</h1>
-                            <p className="text-muted mx-auto mb-2">
-                                I’ve always been captivated by the tiny worlds hidden in plain sight, the patterns you
+                            <p className="mx-auto mb-3">
+                                I’m <span style={{ color: '#5B002D' }}>Thabendran Krishnapriya</span>. I’ve always been captivated by the tiny worlds hidden in plain sight, the patterns you
                                 notice only when you slow down. As a child, I spent hours sketching cells under a
                                 microscope and tracing maps in science class. Today, my drawings begin with a single
                                 line that wanders freely, almost like a doodle, until it finds its own rhythm.
                                 Gradually, those lines cluster and bloom into organic shapes like micro landscapes
                                 filled with memory, curiosity, and the lessons I’ve gathered over time. 
                             </p>
-                            <p className="text-muted mx-auto mb-4">
+                            <p className="mx-auto mb-4">
                                 Color for me is a whisper not a shout. I’ll add a hint of hue here or there, just enough to highlight a
                                 nook or a twist in the pattern. It’s as if I’m lighting a small campfire on a vast
                                 uncharted plain. Each piece is a gentle invitation to come closer, to wander through

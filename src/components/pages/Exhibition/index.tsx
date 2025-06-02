@@ -134,12 +134,12 @@ const Exhibition = () => {
                     <Container>
                         <Row className="justify-content-center">
                             <Col lg={7} className="text-center">
-                                <h1 className="display-3 mb-0" style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                                <h1 className="display-3 mb-4" style={{ color: '#ffffff', fontWeight: 'bold' }}>
                                     Exhibition
                                 </h1>
-                                <p className="mb-4 fs-17 mt-4" style={{ color: '#ffffff' }}>
+                                {/* <p className="mb-4 fs-17 mt-4" style={{ color: '#ffffff' }}>
                                     These exhibitions showcase my journey and achievements through others' perspectives.
-                                </p>
+                                </p> */}
                             </Col>
                         </Row>
                     </Container>
