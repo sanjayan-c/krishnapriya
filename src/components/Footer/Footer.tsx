@@ -7,7 +7,7 @@ import navIcon3Hover from '../../assets/images/social/nav-icon3-pink.svg';
 import navIcon4Hover from '../../assets/images/social/nav-icon4-pink.svg';
 
 // images
-import logo from 'assets/images/MemArk-Dark-Logo.png';
+import logo from 'assets/images/New-MemArk-Logo-Dark.png';
 
 const Footer = () => {
     return (

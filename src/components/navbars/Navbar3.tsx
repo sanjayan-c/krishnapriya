@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Menu from './Menu';
 
 // images
-import logo from '../../assets/images/MemArk-Logo.png';
+import logo from '../../assets/images/New-MemArk-Logo.png';
 
 type Navbar3Props = {
   isSticky?: boolean;
@@ -51,7 +51,7 @@ const Navbar3 = ({ isSticky, navClass, buttonClass, fixedWidth }: Navbar3Props) 
           {/*** Desktop-only Brand on its own row ***/}
           <div className="w-100 d-none d-lg-flex justify-content-center">
             <Navbar.Brand href="/">
-              <img src={logo} height="100" className="d-inline-block align-top mb-4" alt="MemArk Logo" />
+              <img src={logo} height="100" className="d-inline-block align-top mt-4 mb-4" alt="MemArk Logo" />
             </Navbar.Brand>
           </div>
 
