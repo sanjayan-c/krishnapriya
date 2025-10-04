@@ -6,16 +6,14 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    }
-  ],
   "rewrites": [
     {
       "source": "/share/gallery/:id",
       "destination": "/api/share/gallery/:id"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/server.js"
     }
   ]
 }
