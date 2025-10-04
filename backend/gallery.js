@@ -132,20 +132,20 @@ router.delete('/:id', requireAuth, async (req, res) => {
 });
 
 // routes/gallery.js (add at bottom)
-router.get('/:id/image', async (req, res) => {
-    try {
-        const doc = await GalleryItem.findById(req.params.id).lean();
-        if (!doc) return res.status(404).send('Not found');
+// router.get('/:id/image', async (req, res) => {
+//     try {
+//         const doc = await GalleryItem.findById(req.params.id).lean();
+//         if (!doc) return res.status(404).send('Not found');
 
-        // doc.image is base64 — detect/assume png; adjust if you store mime type
-        const buf = Buffer.from(doc.image, 'base64');
-        res.set('Content-Type', doc.mimeType || 'image/png');
-        // Cache for 7 days; tweak as you like
-        res.set('Cache-Control', 'public, max-age=604800, immutable');
-        return res.send(buf);
-    } catch (e) {
-        return res.status(500).send('Error loading image');
-    }
-});
+//         // doc.image is base64 — detect/assume png; adjust if you store mime type
+//         const buf = Buffer.from(doc.image, 'base64');
+//         res.set('Content-Type', doc.mimeType || 'image/png');
+//         // Cache for 7 days; tweak as you like
+//         res.set('Cache-Control', 'public, max-age=604800, immutable');
+//         return res.send(buf);
+//     } catch (e) {
+//         return res.status(500).send('Error loading image');
+//     }
+// });
 
 module.exports = router;

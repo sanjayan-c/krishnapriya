@@ -24,24 +24,23 @@ const Gallery = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const API_ORIGIN = process.env.REACT_APP_BASE_URL || window.location.origin;
-    const getShareUrl = (id: string) => `${API_ORIGIN}/share/gallery/${id}`;
+    const getShareUrl = (id: string) => `${window.location.origin}/gallery?art=${id}`;
 
     const shareItem = async (item: GalleryItem) => {
         const url = getShareUrl(item._id);
-        const shareData = { title: item.title, text: item.description, url };
+        const title = item.title || 'Artwork';
+
         try {
-            if (navigator.share) await navigator.share(shareData);
-            else {
-                await navigator.clipboard.writeText(url);
-                alert('Link copied to clipboard!');
+            if (navigator.share) {
+                await navigator.share({ title, url });
+                return;
             }
+            await navigator.clipboard.writeText(url);
         } catch {
             await navigator.clipboard.writeText(url);
-            alert('Link copied to clipboard!');
         }
     };
-
+    
     // Fetch gallery items on mount
     useEffect(() => {
         const fetchGalleryItems = async () => {
