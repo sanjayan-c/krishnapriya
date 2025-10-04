@@ -10,10 +10,12 @@
     {
       "src": "/api/(.*)",
       "dest": "server.js"
-    },
+    }
+  ],
+  "rewrites": [
     {
-      "src": "/share/gallery/(.*)",
-      "dest": "/api/share/gallery/$1"
+      "source": "/share/gallery/:id",
+      "destination": "/api/share/gallery/:id"
     }
   ]
 }
