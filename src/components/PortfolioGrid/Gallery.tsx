@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { Card, Col, Row } from 'react-bootstrap';
-import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
 import axios from 'axios';
 
 import { LightBox, ImageType } from 'components/LightBox';
 import { GalleryItem } from './types';
 import Loading from '../Loading/index';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 type GalleryProps = {
     galleryItems?: GalleryItem[];
@@ -15,7 +14,6 @@ type GalleryProps = {
 
 const Gallery = () => {
     const [gallery, setGallery] = useState<GalleryItem[]>([]);
-    const [category, setCategory] = useState<string>('all');
     const [galleryImages, setGalleryImages] = useState<ImageType[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [photoIndex, setPhotoIndex] = useState<number>(0);
@@ -23,6 +21,26 @@ const Gallery = () => {
     const [maxHeight, setMaxHeight] = useState<number>(0); // State to store the max height
     const cardBodiesRef = useRef<(HTMLDivElement | null)[]>([]); // Ref for storing card body elements
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const API_ORIGIN = process.env.REACT_APP_BASE_URL || window.location.origin;
+    const getShareUrl = (id: string) => `${API_ORIGIN}/share/gallery/${id}`;
+
+    const shareItem = async (item: GalleryItem) => {
+        const url = getShareUrl(item._id);
+        const shareData = { title: item.title, text: item.description, url };
+        try {
+            if (navigator.share) await navigator.share(shareData);
+            else {
+                await navigator.clipboard.writeText(url);
+                alert('Link copied to clipboard!');
+            }
+        } catch {
+            await navigator.clipboard.writeText(url);
+            alert('Link copied to clipboard!');
+        }
+    };
 
     // Fetch gallery items on mount
     useEffect(() => {
@@ -45,6 +63,15 @@ const Gallery = () => {
                         caption: item.title || '',
                     }))
                 );
+                const params = new URLSearchParams(window.location.search);
+                const artId = params.get('art');
+                if (artId) {
+                    const idx = top3.findIndex((g) => g._id === artId);
+                    if (idx >= 0) {
+                        setPhotoIndex(idx);
+                        setIsOpen(true);
+                    }
+                }
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching gallery items:', error);
@@ -72,9 +99,19 @@ const Gallery = () => {
     const openLightbox = (index: number) => {
         setPhotoIndex(index);
         setIsOpen(true);
+        const id = gallery[index]._id;
+        const url = new URL(window.location.href);
+        url.searchParams.set('art', id);
+        // push without reloading
+        window.history.pushState({}, '', url.toString());
     };
 
-    const closeLightbox = () => setIsOpen(false);
+    const closeLightbox = () => {
+        setIsOpen(false);
+        const url = new URL(window.location.href);
+        url.searchParams.delete('art');
+        window.history.pushState({}, '', url.toString());
+    };
 
     const moveNext = () => setPhotoIndex((prev) => (prev + 1) % galleryImages.length);
 
@@ -124,7 +161,7 @@ const Gallery = () => {
         <>
             <Row className="grid-portfolio mt-5 justify-content-center">
                 {gallery.map((galleryItem, index) => (
-                    <Col md={4} className={`filter-item ${category}`} key={index}>
+                    <Col md={4} className={`filter-item`} key={index}>
                         <Card id="gallery-card" className="card-portfolio-item shadow border">
                             <div className="p-2">
                                 <div className="card-zoom">
@@ -158,26 +195,19 @@ const Gallery = () => {
                             >
                                 <div className="d-flex justify-content-between align-items-center">
                                     <h5
-                                        className="flex-grow-1"
+                                        className="flex-grow-1 me-2"
                                         style={{ wordWrap: 'break-word', whiteSpace: 'normal' }}>
                                         {galleryItem.title}
                                     </h5>
-                                    {/* <button
-                                        className="toggle-button"
-                                        onClick={() => toggleDescription(index)}
-                                        style={{
-                                            background: 'none',
-                                            border: 'none',
-                                            color: '#000',
-                                            cursor: 'pointer',
-                                            fontSize: '16px',
-                                        }}>
-                                        {expandedCards.has(index) ? (
-                                            <i className="ms-2">▲</i>
-                                        ) : (
-                                            <i className="ms-2">▼</i>
-                                        )}
-                                    </button> */}
+                                    <div className="d-flex gap-2">
+                                        {/* Share (uses Web Share API where supported, otherwise copies) */}
+                                        <button
+                                            className="btn btn-primary btn-sm"
+                                            title="Share"
+                                            onClick={() => shareItem(galleryItem)}>
+                                            <FeatherIcon icon="share-2" size={16} />
+                                        </button>
+                                    </div>
                                 </div>
                                 {/* {expandedCards.has(index) && (
                                     <p className="mt-3 text-muted">{galleryItem.description}</p>

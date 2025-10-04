@@ -23,7 +23,6 @@ import api from 'utils/http';
 type GalleryItem = {
     _id: string;
     title: string;
-    description: string;
     image: string; // base64 (no data: prefix)
     createdAt?: string;
     updatedAt?: string;
@@ -31,11 +30,10 @@ type GalleryItem = {
 
 type GalleryFormValues = {
     title: string;
-    description: string;
     imageFile?: File | null;
 };
 
-type SortKey = 'title' | 'description' | 'updatedAt';
+type SortKey = 'title' | 'updatedAt';
 type SortDir = 'asc' | 'desc';
 
 const PAGE_SIZE = 10;
@@ -61,7 +59,6 @@ export default function Index() {
     const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
     const [formValues, setFormValues] = useState<GalleryFormValues>({
         title: '',
-        description: '',
         imageFile: null,
     });
     const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -117,25 +114,13 @@ export default function Index() {
 
         if (q.trim()) {
             const n = q.trim().toLowerCase();
-            list = list.filter(
-                (it) => it.title?.toLowerCase().includes(n) || it.description?.toLowerCase().includes(n)
-            );
+            list = list.filter((it) => it.title?.toLowerCase().includes(n));
         }
 
         list.sort((a, b) => {
             const dir = sortDir === 'asc' ? 1 : -1;
-            const av =
-                sortKey === 'title'
-                    ? (a.title || '').toLowerCase()
-                    : sortKey === 'description'
-                    ? (a.description || '').toLowerCase()
-                    : a.updatedAt || '';
-            const bv =
-                sortKey === 'title'
-                    ? (b.title || '').toLowerCase()
-                    : sortKey === 'description'
-                    ? (b.description || '').toLowerCase()
-                    : b.updatedAt || '';
+            const av = sortKey === 'title' ? (a.title || '').toLowerCase() : a.updatedAt || '';
+            const bv = sortKey === 'title' ? (b.title || '').toLowerCase() : b.updatedAt || '';
 
             if (av < bv) return -1 * dir;
             if (av > bv) return 1 * dir;
@@ -168,7 +153,7 @@ export default function Index() {
 
     // --- Modal helpers ---
     const resetForm = () => {
-        setFormValues({ title: '', description: '', imageFile: null });
+        setFormValues({ title: '', imageFile: null });
         setPreviewUrl('');
         setModalError(null);
         dirtyRef.current = false;
@@ -182,7 +167,7 @@ export default function Index() {
 
     const openEdit = (it: GalleryItem, rowIndex: number) => {
         setEditingItem(it);
-        setFormValues({ title: it.title || '', description: it.description || '', imageFile: null });
+        setFormValues({ title: it.title || '', imageFile: null });
         setPreviewUrl(`data:image/png;base64,${it.image}`);
         setModalError(null);
         dirtyRef.current = false;
@@ -225,7 +210,6 @@ export default function Index() {
 
             const fd = new FormData();
             fd.append('title', formValues.title);
-            fd.append('description', formValues.description);
             if (formValues.imageFile) fd.append('image', formValues.imageFile);
 
             if (editingItem) {
@@ -300,7 +284,7 @@ export default function Index() {
                                     <FeatherIcon icon="search" size={16} />
                                 </InputGroup.Text>
                                 <Form.Control
-                                    placeholder="Search title or description…"
+                                    placeholder="Search title…"
                                     value={q}
                                     onChange={(e) => {
                                         setQ(e.target.value);
@@ -357,17 +341,6 @@ export default function Index() {
                                                     />
                                                 )}
                                             </th>
-                                            <th
-                                                role="button"
-                                                onClick={() => toggleSort('description')}
-                                                className="user-select-none col-desc">
-                                                <span className="me-1">Description</span>
-                                                {sortKey === 'description' && (
-                                                    <FeatherIcon
-                                                        icon={sortDir === 'asc' ? 'chevron-up' : 'chevron-down'}
-                                                    />
-                                                )}
-                                            </th>
                                             <th style={{ width: 90 }} className="text-end">
                                                 Actions
                                             </th>
@@ -376,7 +349,7 @@ export default function Index() {
                                     <tbody>
                                         {processed.length === 0 ? (
                                             <tr>
-                                                <td colSpan={4} className="text-center py-4 text-muted">
+                                                <td colSpan={3} className="text-center py-4 text-muted">
                                                     No items
                                                 </td>
                                             </tr>
@@ -403,9 +376,6 @@ export default function Index() {
                                                         <td className="col-title">
                                                             {/* Truncate on desktop only; full width + scroll on mobile */}
                                                             <div className="fw-semibold truncate-lg">{it.title}</div>
-                                                        </td>
-                                                        <td className="text-muted col-desc">
-                                                            <div className="truncate-lg">{it.description}</div>
                                                         </td>
                                                         <td className="text-end text-nowrap admin-actions">
                                                             <div className="d-inline-flex align-items-center gap-2">
@@ -499,19 +469,6 @@ export default function Index() {
                                 value={formValues.title}
                                 onChange={(e) => onChangeField('title', e.target.value)}
                                 placeholder="Artwork title"
-                                required
-                                disabled={isSaving}
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={formValues.description}
-                                onChange={(e) => onChangeField('description', e.target.value)}
-                                placeholder="Short description"
                                 required
                                 disabled={isSaving}
                             />
@@ -647,15 +604,14 @@ export default function Index() {
   thead th[role="button"] { cursor: pointer; }
 
   /* Responsive column sizing + truncation */
-  .col-title, .col-desc { white-space: normal; }
+  .col-title { white-space: normal; }
+
   @media (max-width: 991.98px) {
     .col-title { min-width: 300px; }
-    .col-desc  { min-width: 300px; }
   }
 
   @media (min-width: 992px) {
-    .col-title { max-width: 360px; }
-    .col-desc  { max-width: 360px; }
+    .col-title { max-width: 480px; }
     .truncate-lg {
       display: inline-block;
       max-width: 100%;

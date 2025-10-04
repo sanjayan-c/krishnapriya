@@ -12,6 +12,7 @@ const articleRoutes = require('./article');
 const contactRoutes = require('./contact');
 const testimonialRoutes = require('./testimonial');
 const authRoutes = require('./auth');
+const shareRoutes = require('./share');
 
 // models
 const AuthUser = require('./models/AuthUser');
@@ -62,6 +63,7 @@ app.use('/api/exhibitions', exhibitionRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/testimonials', testimonialRoutes);
+app.use('/share', shareRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Server is running' });
