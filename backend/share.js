@@ -26,7 +26,7 @@ router.get('/gallery/:id', async (req, res) => {
 
         // Origins
         const PUBLIC_ORIGIN = `${req.protocol}://${req.get('host')}`; // this share page host
-        const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || PUBLIC_ORIGIN; 
+        const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || PUBLIC_ORIGIN;
         const API_ORIGIN = process.env.API_ORIGIN || PUBLIC_ORIGIN;
 
         // Canonical (this page), image (absolute), and human redirect target
@@ -43,20 +43,28 @@ router.get('/gallery/:id', async (req, res) => {
   <link rel="canonical" href="${canonicalUrl}" />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="${canonicalUrl}">
-  <meta property="og:title" content="${escapeHtml(doc.title)}">
-  <meta property="og:image" content="${publicImageUrl}">
-  <meta property="og:image:alt" content="${escapeHtml(doc.title)}">
-  <meta property="og:site_name" content="Your Site Name">
-  <!-- Optional but helpful hints -->
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+<meta property="og:type" content="article">
+<meta property="og:url" content="${canonicalUrl}">
+<meta property="og:title" content="${escapeHtml(doc.title)}">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${escapeHtml(doc.title)}">
-  <meta name="twitter:image" content="${publicImageUrl}">
+<!-- Hide description line: use empty content -->
+<meta property="og:description" content="">
+
+<!-- Strong image hints -->
+<meta property="og:image" content="${publicOgImageUrl}">
+<meta property="og:image:secure_url" content="${publicOgImageUrl}">
+<meta property="og:image:type" content="image/jpeg">   <!-- we'll serve JPEG below -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${escapeHtml(doc.title)}">
+
+<meta property="og:site_name" content="Your Site Name">
+
+<!-- Twitter (optional; WA ignores) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escapeHtml(doc.title)}">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="${publicOgImageUrl}">
 
   <!-- Tiny delay helps you view-source during dev -->
   <meta http-equiv="refresh" content="1;url=${fallbackUrl}">
