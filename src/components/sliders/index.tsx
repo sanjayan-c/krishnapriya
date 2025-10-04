@@ -1,3 +1,3 @@
-import SwiperSlider2 from './SwiperSlider2';
+import SwiperSlider from './SwiperSlider';
 
-export { SwiperSlider2 };
+export { SwiperSlider };

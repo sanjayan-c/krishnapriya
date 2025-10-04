@@ -63,13 +63,13 @@ const Menu = ({ navClass }: MenuProps) => {
                 </Nav.Item>
                 <Nav.Item as="li">
                     <a
-                        href="/#exhibition"
+                        href="/#exhibitions"
                         className={classNames('nav-link', { active: activeSection === 'exhibition' })}>
-                        Exhibition
+                        Exhibitions
                     </a>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <a href="/article" className={classNames('nav-link', { active: activeSection === 'article' })}>
+                    <a href="/articles" className={classNames('nav-link', { active: activeSection === 'article' })}>
                         Articles
                     </a>
                 </Nav.Item>

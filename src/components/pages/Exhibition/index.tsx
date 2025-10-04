@@ -51,17 +51,23 @@ const Exhibition = () => {
                 setLoading(true);
                 const baseUrl = process.env.REACT_APP_BASE_URL;
                 const response = await axios.get(`${baseUrl}/api/exhibitions`);
-                const fetchedBlogs = response.data.map((article: any) => ({
-                    title: article.title || 'No Title',
-                    description: article.description || 'No Description',
-                    time: article.date || 'No Date',
-                    img: article.images?.length
-                        ? article.images.map((img: string) => `data:image/png;base64,${img}`)
-                        : ['https://via.placeholder.com/300'], // Use placeholder if no image
-                    location: article.location || 'Unknown Location',
-                    size: article.size || 'Unknown Size',
-                    imageTitle: article.imageTitle || 'No Image Title',
+                // Normalize to an array whether API returns [] or { items: [] }
+                const raw = response.data;
+                const list: any[] = Array.isArray(raw) ? raw : Array.isArray(raw?.items) ? raw.items : [];
+
+                const fetchedBlogs = list.map((article: any) => ({
+                    title: article?.title ?? 'No Title',
+                    description: article?.description ?? 'No Description',
+                    time: article?.date ?? 'No Date',
+                    img:
+                        Array.isArray(article?.images) && article.images.length > 0
+                            ? article.images.map((img: string) => `data:image/png;base64,${img}`)
+                            : ['https://via.placeholder.com/300'],
+                    location: article?.location ?? 'Unknown Location',
+                    size: article?.size ?? 'Unknown Size',
+                    imageTitle: article?.imageTitle ?? 'No Image Title',
                 }));
+
                 setBlogs(fetchedBlogs);
                 setLoading(false);
             } catch (error) {
@@ -135,7 +141,7 @@ const Exhibition = () => {
                         <Row className="justify-content-center">
                             <Col lg={7} className="text-center">
                                 <h1 className="display-3 mb-4" style={{ color: '#ffffff', fontWeight: 'bold' }}>
-                                    Exhibition
+                                    Exhibitions
                                 </h1>
                                 {/* <p className="mb-4 fs-17 mt-4" style={{ color: '#ffffff' }}>
                                     These exhibitions showcase my journey and achievements through others' perspectives.

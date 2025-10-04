@@ -128,22 +128,29 @@ const Blog = () => {
                 setLoading(true);
                 const baseUrl = process.env.REACT_APP_BASE_URL;
                 const response = await axios.get(`${baseUrl}/api/exhibitions`);
-                const fetchedBlogs = response.data.map((article: any) => ({
-                    title: article.title || 'No Title',
-                    description: article.description || 'No Description',
-                    time: article.date || 'No Date',
-                    img: article.images?.length
-                        ? article.images.map((img: string) => `data:image/png;base64,${img}`)
-                        : ['https://via.placeholder.com/300'], // Use placeholder if no image
-                    location: article.location || 'Unknown Location',
-                    size: article.size || 'Unknown Size',
-                    imageTitle: article.imageTitle || 'No Image Title',
+
+                // Normalize to an array whether API returns [] or { items: [] }
+                const raw = response.data;
+                const list: any[] = Array.isArray(raw) ? raw : Array.isArray(raw?.items) ? raw.items : [];
+
+                const fetchedBlogs = list.map((article: any) => ({
+                    title: article?.title ?? 'No Title',
+                    description: article?.description ?? 'No Description',
+                    time: article?.date ?? 'No Date',
+                    img:
+                        Array.isArray(article?.images) && article.images.length > 0
+                            ? article.images.map((img: string) => `data:image/png;base64,${img}`)
+                            : ['https://via.placeholder.com/300'],
+                    location: article?.location ?? 'Unknown Location',
+                    size: article?.size ?? 'Unknown Size',
+                    imageTitle: article?.imageTitle ?? 'No Image Title',
                 }));
+
                 setBlogs(fetchedBlogs);
-                setLimitedBlogs(fetchedBlogs.slice(0, 3)); // Load only the first three
-                setLoading(false);
+                setLimitedBlogs(fetchedBlogs.slice(0, 3));
             } catch (error) {
                 console.error('Error fetching blogs:', error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -212,11 +219,11 @@ const Blog = () => {
     }, [limitedBlogs]);
 
     return (
-        <section id="exhibition" className="section pt-5 pb-5 position-relative">
+        <section id="exhibitions" className="section pt-5 pb-5 position-relative">
             <Container>
                 <Row>
                     <Col className="text-center">
-                        <h1 className="display-4 fw-bold">Exhibition</h1>
+                        <h1 className="display-4 fw-bold">Exhibitions</h1>
                     </Col>
                 </Row>
                 {loading ? (
@@ -225,7 +232,7 @@ const Blog = () => {
                     </Row>
                 ) : limitedBlogs.length === 0 ? (
                     <section
-                        id="exhibition"
+                        id="exhibitions"
                         className="section pt-5 pb-5 d-flex justify-content-center align-items-center text-center"
                         style={{ minHeight: '300px' }}>
                         <p className="text-muted">No exhibitions found.</p>
@@ -317,7 +324,7 @@ const Blog = () => {
                             })}
                         </Row>
                         <div className="text-center mt-5 pb-md-0">
-                            <Link to="/exhibition" className="btn btn-primary">
+                            <Link to="/exhibitions" className="btn btn-primary">
                                 <FeatherIcon icon="refresh-ccw" className="icon-xxs me-2" />
                                 View More
                             </Link>
