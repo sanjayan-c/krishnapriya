@@ -24,6 +24,15 @@ function isHttpUrl(url) {
     }
 }
 
+function resolveUrlMaybe(src, base) {
+    if (!src) return '';
+    try {
+        return new URL(src, base).href;
+    } catch {
+        return src;
+    }
+}
+
 async function fetchHtml(url) {
     const res = await axios.get(url, {
         headers: {
@@ -86,18 +95,32 @@ router.get('/metadata', async (req, res) => {
             pick($, ['meta[property="og:title"]', 'meta[name="twitter:title"]', 'meta[name="title"]']) ||
             $('title').first().text().trim();
 
-        const image =
-            pick($, ['meta[property="og:image"]', 'meta[name="twitter:image"]', 'link[rel="image_src"]']) ||
-            // very light fallback: first large-ish image on the page
-            $('img[src]')
+        let image = pick($, [
+            'meta[property="og:image:secure_url"]',
+            'meta[property="og:image"]',
+            'meta[name="twitter:image"]',
+            'link[rel="image_src"]',
+        ]);
+
+        image = resolveUrlMaybe(image, url);
+
+        // broader fallback: first visible-ish image even without width/height attrs
+        if (!image) {
+            const candidate = $('img[src]')
                 .filter((i, el) => {
-                    const w = parseInt($(el).attr('width') || '0', 10);
-                    const h = parseInt($(el).attr('height') || '0', 10);
-                    return (w >= 200 && h >= 200) || (!isNaN(w) && w >= 200) || (!isNaN(h) && h >= 200);
+                    const $el = $(el);
+                    const w = parseInt($el.attr('width') || '0', 10);
+                    const h = parseInt($el.attr('height') || '0', 10);
+                    // keep if has numeric size OR appears large by class/name hints
+                    const cls = ($el.attr('class') || '').toLowerCase();
+                    const style = ($el.attr('style') || '').toLowerCase();
+                    const looksLarge = /hero|cover|main|large/.test(cls + ' ' + style);
+                    return w >= 200 || h >= 200 || looksLarge;
                 })
                 .first()
-                .attr('src') ||
-            '';
+                .attr('src');
+            image = resolveUrlMaybe(candidate, url) || '';
+        }
 
         const description = pick($, [
             'meta[property="og:description"]',
@@ -112,6 +135,8 @@ router.get('/metadata', async (req, res) => {
                 'meta[name="article:published_time"]',
                 'meta[name="date"]',
                 'meta[property="og:updated_time"]',
+                'meta[name="publish-date"]',
+                'meta[name="pubdate"]',
                 'time[datetime]',
             ]) ||
             extractDateFromText($) ||
