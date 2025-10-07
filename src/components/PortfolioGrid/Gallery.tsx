@@ -24,7 +24,7 @@ const Gallery = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const getShareUrl = (id: string) => `${window.location.origin}/gallery?art=${id}`;
+    const getShareUrl = (id: string) => `${process.env.REACT_APP_BASE_URL?.replace(/\/+$/, '') || ''}/share/art/${id}`;
 
     const shareItem = async (item: GalleryItem) => {
         const url = getShareUrl(item._id);

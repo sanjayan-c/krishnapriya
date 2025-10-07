@@ -131,21 +131,45 @@ router.delete('/:id', requireAuth, async (req, res) => {
     }
 });
 
-// routes/gallery.js (add at bottom)
-// router.get('/:id/image', async (req, res) => {
-//     try {
-//         const doc = await GalleryItem.findById(req.params.id).lean();
-//         if (!doc) return res.status(404).send('Not found');
+/**
+ * Serve gallery image with proper content-type
+ */
+router.get('/:id/image', async (req, res) => {
+  try {
+    const doc = await GalleryItem.findById(req.params.id).lean();
+    if (!doc || !doc.image) return res.status(404).send('Not found');
 
-//         // doc.image is base64 — detect/assume png; adjust if you store mime type
-//         const buf = Buffer.from(doc.image, 'base64');
-//         res.set('Content-Type', doc.mimeType || 'image/png');
-//         // Cache for 7 days; tweak as you like
-//         res.set('Cache-Control', 'public, max-age=604800, immutable');
-//         return res.send(buf);
-//     } catch (e) {
-//         return res.status(500).send('Error loading image');
-//     }
-// });
+    // Convert base64 to buffer
+    const imgBuffer = Buffer.from(doc.image, 'base64');
+    const contentType = sniffMimeFromBuffer(imgBuffer);
+
+    // Conditional GET support
+    const lastModified = doc.updatedAt ? new Date(doc.updatedAt) : new Date();
+    const etag = makeETag(doc._id, doc.updatedAt, imgBuffer.length);
+
+    if (req.headers['if-none-match'] === etag) {
+      res.status(304);
+      res.end();
+      return;
+    }
+    const ims = req.headers['if-modified-since'];
+    if (ims && new Date(ims).getTime() >= lastModified.getTime()) {
+      res.status(304);
+      res.end();
+      return;
+    }
+
+    res.set('Content-Type', contentType);
+    res.set('Content-Length', String(imgBuffer.length));
+    res.set('Cache-Control', 'public, max-age=604800, immutable'); // 7 days
+    res.set('ETag', etag);
+    res.set('Last-Modified', lastModified.toUTCString());
+
+    return res.send(imgBuffer);
+  } catch (error) {
+    console.error('Error serving image:', error);
+    return res.status(500).send('Error loading image');
+  }
+});
 
 module.exports = router;

@@ -12,6 +12,7 @@ const articleRoutes = require('./article');
 const contactRoutes = require('./contact');
 const testimonialRoutes = require('./testimonial');
 const authRoutes = require('./auth');
+const shareRoutes = require('./share');
 
 // models
 const AuthUser = require('./models/AuthUser');
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 8070;
 
 /* ---------- Security & body parsing ---------- */
 app.use(helmet());
+// app.use(cors({ origin: '*' }));
 app.use(cors({ origin: process.env.CORS_ORIGIN?.split(',') || true }));
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ limit: '20mb', extended: true }));
@@ -55,6 +57,8 @@ mongoose
         process.exit(1);
     });
 
+app.set('trust proxy', 1);
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/galleries', galleryRoutes);
@@ -62,6 +66,7 @@ app.use('/api/exhibitions', exhibitionRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/testimonials', testimonialRoutes);
+app.use('/share', shareRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Server is running' });
