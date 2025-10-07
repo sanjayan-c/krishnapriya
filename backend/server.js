@@ -69,7 +69,7 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/share', shareRoutes);
 
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Server is running' });
+    res.status(200).json({ message: 'Server is running...' });
 });
 
 /* ---------- Error handler (last) ---------- */
